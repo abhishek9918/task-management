@@ -1,0 +1,59 @@
+<div class="w-full flex text-gray-100 overflow-hidden">
+  <aside
+    class="w-72 h-screen bg-white/10 backdrop-blur-md shadow-2xl rounded-br-3xl overflow-hidden"
+  >
+    <div class="p-5 flex items-center space-x-3 border-b border-white/20">
+      <img
+        [src]="
+          loggedInUserDetails && loggedInUserDetails.profilePicture
+            ? 'http://localhost:1517/' + loggedInUserDetails.profilePicture
+            : profilAvtar
+        "
+        alt="no img"
+        class="h-16 w-16 rounded-full cover strech"
+      />
+      <div>
+        <p class="text-lg font-semibold text-white">
+          {{ loggedInUserDetails?.userName }}
+        </p>
+        <p class="text-sm text-gray-300">{{ loggedInUserDetails?.email }}</p>
+      </div>
+    </div>
+
+    <nav class="mt-6">
+      <ul>
+        <li>
+          <a
+            routerLink="/dashboard"
+            class="flex items-center p-4 rounded-lg text-white transition-all duration-300 hover:bg-white/20"
+          >
+            📋 <span class="ml-3">Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a
+            routerLink="/dashboard/tasks"
+            class="flex items-center p-4 rounded-lg text-white transition-all duration-300 hover:bg-white/20"
+          >
+            📝 <span class="ml-3">Tasks</span>
+          </a>
+        </li>
+        <li>
+          <a
+            routerLink="/dashboard/settings"
+            class="flex items-center p-4 rounded-lg text-white transition-all duration-300 hover:bg-white/20"
+          >
+            ⚙️ <span class="ml-3">Settings</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="flex-1 flex flex-col overflow-auto">
+    <app-header></app-header>
+    <main class="flex-1 p-8 bg-gray-900 overflow-adjust">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

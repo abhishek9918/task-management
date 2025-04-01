@@ -1,0 +1,165 @@
+<div class="p-6">
+  <h2 class="text-3xl font-bold text-white mb-6">📝 Task Manager</h2>
+
+  <div
+    *ngIf="searchTasked.length === 0 && searchTerm === ''"
+    class="flex flex-col items-center justify-center min-h-[200px] py-10"
+  >
+    <img
+      src="https://cdn-icons-png.flaticon.com/512/4076/4076432.png"
+      alt="No Tasks"
+      class="w-32 h-32 opacity-80"
+    />
+    <h3 class="text-xl font-semibold text-gray-300 mt-4">
+      No Task created yet
+    </h3>
+    <p class="text-gray-400 text-sm mt-2">Start by adding a new task</p>
+    <button
+      (click)="createTask()"
+      class="mt-4 px-5 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition"
+    >
+      ➕ Add Task
+    </button>
+  </div>
+
+  <ng-container *ngIf="searchTasked.length > 0 || searchTerm !== ''">
+    <div class="flex justify-between items-center mb-6">
+      <div class="flex items-center space-x-4">
+        <div class="relative h-[40px]">
+          <input
+            (keyup)="taskSearch($event)"
+            type="text"
+            placeholder="🔍 Search tasks..."
+            class="w-64 h-full p-2 pl-10 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
+          />
+          <span
+            class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+            >🔍</span
+          >
+        </div>
+
+        <select
+          class="p-2 h-[40px] border rounded-lg bg-gray-800 text-white shadow-sm"
+          (change)="sortTask($event)"
+        >
+          <option value="date">📅 Sort by Date</option>
+          <option value="priority">🔥 Sort by Priority</option>
+          <option value="status">✅ Sort by Status</option>
+        </select>
+      </div>
+
+      <button
+        (click)="createTask()"
+        class="flex items-center gap-2 bg-blue-500 text-white px-5 py-2 rounded-lg shadow hover:bg-blue-600 transition"
+      >
+        ➕ Add Task
+      </button>
+    </div>
+
+    <div
+      class="bg-gradient-to-r from-black to-gray-600 p-6 rounded-2xl shadow-xl"
+    >
+      <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+        📌 Your Tasks
+        <span class="text-sm text-gray-300">({{ searchTasked.length }})</span>
+      </h3>
+      <div
+        *ngIf="searchTasked.length === 0 && searchTerm !== ''"
+        class="flex flex-col items-center justify-center min-h-[200px] py-10"
+      >
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/4076/4076432.png"
+          alt="No Tasks"
+          class="w-32 h-32 opacity-80"
+        />
+        <h3 class="text-xl font-semibold text-gray-300 mt-4">No tasks found</h3>
+        <p class="text-gray-400 text-sm mt-2">
+          Try adjusting your search or filters
+        </p>
+      </div>
+      <ng-container *ngIf="searchTasked.length > 0">
+        <ul
+          class="space-y-4 my-4"
+          *ngFor="
+            let item of searchTasked
+              | paginate
+                : { itemsPerPage: 5, currentPage: p, totalItems: total };
+            let i = index
+          "
+        >
+          <li
+            class="flex justify-between space-x-6 items-center bg-white/10 p-5 rounded-xl shadow-lg border border-white/10 transition-transform transform hover:shadow-2xl"
+          >
+            <div>
+              <p class="text-lg font-semibold text-white">{{ item.task }}</p>
+              <p class="text-sm text-gray-300">
+                📅 Due:
+                <span class="font-medium">{{
+                  item.dueDate | date : "MMM d, yyyy"
+                }}</span>
+              </p>
+              <p class="text-sm text-gray-300">
+                ⏳ Created At:
+                <span class="font-medium">{{
+                  item.createdAt | date : "MMM d, yyyy, h:mm a"
+                }}</span>
+              </p>
+              <p class="text-sm text-gray-400 mt-1">
+                🔥 Priority:
+                <span
+                  class="px-2 py-1 rounded-md text-white text-sm"
+                  [ngClass]="{
+                    'bg-red-600 font-bold': item.priority === 'high',
+                    'bg-yellow-500 font-medium': item.priority === 'medium',
+                    'bg-green-500': item.priority === 'low'
+                  }"
+                >
+                  {{ item.priority | uppercase }}
+                </span>
+              </p>
+            </div>
+
+            <div class="flex items-center space-x-4">
+              <span
+                class="px-4 py-2 rounded-full text-sm font-semibold shadow-md"
+                [ngClass]="{
+                  'bg-green-500 text-white': item.status === 'Completed',
+                  'bg-yellow-500 text-gray-900': item.status === 'In Progress',
+                  'bg-red-500 text-white': item.status === 'Pending'
+                }"
+              >
+                {{ item.status }}
+              </span>
+
+              <div class="flex space-x-2">
+                <button
+                  (click)="editTask(item._id)"
+                  class="bg-yellow-400 text-white px-3 py-1 rounded-md hover:bg-yellow-500 transition"
+                >
+                  ✏️ Edit
+                </button>
+                <button
+                  (click)="deleteTask(item._id)"
+                  class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition"
+                >
+                  🗑 Delete
+                </button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </ng-container>
+    </div>
+
+    <div class="flex justify-center mt-6">
+      <pagination-controls
+        previousLabel="Prev"
+        nextLabel="Next"
+        [maxSize]="5"
+        (pageChange)="pageChangeEvent($event)"
+      ></pagination-controls>
+    </div>
+  </ng-container>
+</div>
+
+<app-laoder [isLoading]="isloader"></app-laoder>

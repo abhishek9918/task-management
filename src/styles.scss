@@ -1,1 +1,47 @@
-/* You can add global styles to this file, and also import other style files */
+@use "tailwindcss";
+// @import "./assets/scss/toaster.scss";
+
+body {
+  @apply bg-gray-900;
+}
+body,
+html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #1d1e24;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #4a4a4a;
+  border-radius: 10px;
+  border: 2px solid #1d1e24;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #6b6b6b;
+}
+
+::ng-deep .ngx-pagination {
+  @apply flex gap-2 justify-center mt-4;
+}
+
+::ng-deep .ngx-pagination .current {
+  @apply bg-blue-500 text-white px-3 py-1 rounded;
+}
+
+.overflow-adjust {
+  overflow-y: scroll;
+  height: 100%;
+  max-height: 690px;
+}
