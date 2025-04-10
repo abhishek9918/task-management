@@ -5,3 +5,4 @@ export const environment = {
 };
 
 console.log('Testing environment');
+console.log('Testing environment');
