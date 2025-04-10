@@ -33,6 +33,7 @@ export class SettingsComponent implements OnInit {
   loggedInUser: any;
   LoggedInUserId: any;
   profileForm!: FormGroup;
+  passwordFormGroup!: FormGroup;
   selectedFile: any = null;
   profilePreview: any = null;
   profilAvtar = 'avatar-3814081_640.png';
@@ -51,6 +52,10 @@ export class SettingsComponent implements OnInit {
     this.profileForm = this._fb.group({
       profile: [null, Validators.required],
       userName: [null, Validators.required],
+    });
+    this.passwordFormGroup = this._fb.group({
+      old_password: [],
+      new_password: [],
     });
   }
   fetchlogginginfo(id: any): void {
@@ -116,5 +121,20 @@ export class SettingsComponent implements OnInit {
     formData.append('userId', this.LoggedInUserId);
     formData.append('userName', this.profileForm.value.userName);
     this.updateProfile(formData);
+  }
+
+  updatePassword(e: any) {
+    e.preventDefault();
+    if (this.passwordFormGroup.valid) {
+      const form = {
+        userId: this.LoggedInUserId,
+        oldPass: this.passwordFormGroup.value.old_password,
+        newPass: this.passwordFormGroup.value.new_password,
+      };
+      const url = 'update_password';
+      this.api.post(url, form).subscribe((e) => {
+        console.log(e);
+      });
+    }
   }
 }

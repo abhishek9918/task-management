@@ -138,7 +138,8 @@ export class MainDashboardComponent implements OnInit, AfterViewInit {
           this.countStatus = resp;
 
           this.searchTasked = [...this.taskArray];
-          this.total = resp.totalTasks;
+          this.total = resp.totalElements;
+          console.log('total', this.total);
 
           if (this.taskArray.length === 0 && this.p > 1) {
             this.p--;
@@ -146,12 +147,10 @@ export class MainDashboardComponent implements OnInit, AfterViewInit {
           }
           this.initializeChart(resp);
         } else {
-          console.error('Invalid response format:', resp);
         }
       },
       error: (error) => {
         this.isloader = false;
-        console.error('Error fetching tasks:', error);
       },
     });
   }
@@ -163,7 +162,36 @@ export class MainDashboardComponent implements OnInit, AfterViewInit {
   progressPercentage: any = 10;
 
   viewTask(task: any) {
-    console.log(task);
     this.router.navigate(['/dashboard/tasks/view-task', task._id]);
+  }
+
+  searchTerm: any = '';
+  filteredTasks: any[] = [];
+  taskSearch(event: any) {
+    this.searchTerm = event.target.value.trim().toLowerCase();
+
+    if (!this.searchTerm) {
+      this.searchTasked = [...this.taskArray];
+      return;
+    }
+
+    this.searchTask(this.searchTerm);
+  }
+  searchTask(searchTerm: any) {
+    const url = `search_task/${searchTerm}`;
+    this.api.get(url).subscribe({
+      next: (resp) => {
+        if (resp.success && resp.data.length > 0) {
+          this.searchTasked = [...resp.data];
+          this.total = resp.totalTasks;
+          console.log(this.total, 'Total tasks');
+        } else {
+          this.searchTasked = [];
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching tasks:', error);
+      },
+    });
   }
 }

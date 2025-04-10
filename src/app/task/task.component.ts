@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { ApiServiceService } from '../services/api-service.service';
@@ -16,7 +16,7 @@ import {
 @Component({
   selector: 'app-task',
   standalone: true,
-  imports: [CommonModule, LaoderComponent, NgxPaginationModule],
+  imports: [CommonModule, LaoderComponent, NgxPaginationModule, FormsModule],
   templateUrl: './task.component.html',
   styleUrl: './task.component.scss',
 })
@@ -53,18 +53,23 @@ export class TaskComponent implements OnInit {
     this.api.get(url).subscribe({
       next: (resp) => {
         this.isloader = false;
-
         if (resp.success) {
           this.taskArray = resp.data;
-          console.log('taskArray', this.taskArray);
           this.searchTasked = [...this.taskArray];
-          this.total = resp.totalTasks;
+          this.total = resp.totalTasks || 0;
 
-          if (this.taskArray.length === 0 && this.p > 1) {
-            this.p--;
-            this.getAllTasks();
-          }
+          console.log('taskArray', this.taskArray);
+          console.log('search', this.searchTasked);
+          console.log('total', this.total);
+
+          // if (this.taskArray.length === 0 && this.p > 1) {
+          //   this.p--;
+          //   this.getAllTasks();
+          // }
         } else {
+          this.taskArray = [];
+          this.searchTasked = [];
+          this.total = 0;
           console.error('Invalid response format:', resp);
         }
       },
@@ -148,6 +153,22 @@ export class TaskComponent implements OnInit {
       error: (error) => {
         console.error('Error fetching tasks:', error);
       },
+    });
+  }
+  changeStatus(task: any, event: any) {
+    // console.log(task, event.target.value);
+    const statusObj = {
+      status: event.target.value,
+      userId: task.user,
+      taskId: task._id,
+    };
+    console.log(statusObj, task);
+    const url = 'change_status';
+    this.api.post(url, statusObj).subscribe((resp) => {
+      if (resp.status === 200) {
+        this.getAllTasks();
+      }
+      console.log(resp);
     });
   }
 }

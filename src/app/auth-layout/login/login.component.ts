@@ -46,8 +46,6 @@ export class LoginComponent implements OnInit {
       next: (resp) => {
         this._toastr.success(resp.message);
         this.router.navigate(['/dashboard']);
-        // this.userService.checkUserLogin(true);
-        // this.userService.setUser('abhishek');
       },
       error: (error) => {
         this._toastr.success(error.message);

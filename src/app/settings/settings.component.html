@@ -57,34 +57,38 @@
     </form>
   </div>
   <div class="bg-gray-800 p-5 rounded-xl shadow-md mb-6">
-    <h3 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-      🔒 Change Password
-    </h3>
-    <div class="relative mb-3">
-      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-        🔑
-      </span>
-      <input
-        type="password"
-        placeholder="Old Password"
-        class="w-full p-3 pl-10 bg-gray-700 text-white border border-gray-600 rounded-md focus:ring-2 focus:ring-green-500 outline-none"
-      />
-    </div>
-    <div class="relative mb-3">
-      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-        🔏
-      </span>
-      <input
-        type="password"
-        placeholder="New Password"
-        class="w-full p-3 pl-10 bg-gray-700 text-white border border-gray-600 rounded-md focus:ring-2 focus:ring-green-500 outline-none"
-      />
-    </div>
-    <button
-      class="w-full bg-green-500 text-white py-2 rounded-lg shadow-md hover:bg-green-600 transition"
-    >
-      🔄 Update Password
-    </button>
+    <form [formGroup]="passwordFormGroup" (ngSubmit)="updatePassword($event)">
+      <h3 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+        🔒 Change Password
+      </h3>
+      <div class="relative mb-3">
+        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+          🔑
+        </span>
+        <input
+          type="password"
+          formControlName="old_password"
+          placeholder="Old Password"
+          class="w-full p-3 pl-10 bg-gray-700 text-white border border-gray-600 rounded-md focus:ring-2 focus:ring-green-500 outline-none"
+        />
+      </div>
+      <div class="relative mb-3">
+        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+          🔏
+        </span>
+        <input
+          type="password"
+          formControlName="new_password"
+          placeholder="New Password"
+          class="w-full p-3 pl-10 bg-gray-700 text-white border border-gray-600 rounded-md focus:ring-2 focus:ring-green-500 outline-none"
+        />
+      </div>
+      <button
+        class="w-full bg-green-500 text-white py-2 rounded-lg shadow-md hover:bg-green-600 transition"
+      >
+        🔄 Update Password
+      </button>
+    </form>
   </div>
   <button
     class="w-full bg-red-500 text-white py-2 rounded-lg shadow-md hover:bg-red-600 transition flex items-center justify-center gap-2"

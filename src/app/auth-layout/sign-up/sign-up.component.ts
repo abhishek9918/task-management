@@ -36,7 +36,6 @@ export class SignUpComponent {
   }
 
   onSubmit() {
-    console.log(this.registerForm.value);
     this.postUser(this.registerForm.value);
     this.router.navigate(['/login']);
   }
@@ -44,12 +43,9 @@ export class SignUpComponent {
     this.AuthService.createUser(formData).subscribe({
       next: (resp) => {
         this._toaster.success(resp.message);
-
-        console.log(resp);
       },
       error: (error) => {
         this._toaster.success(error.message);
-        console.error(error);
       },
     });
   }

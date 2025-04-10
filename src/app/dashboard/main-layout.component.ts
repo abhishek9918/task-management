@@ -1,4 +1,12 @@
-import { Component, effect, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  effect,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  viewChild,
+} from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService, LoggedInUser } from '../services/auth.service';
 import { ApiServiceService } from '../services/api-service.service';
@@ -6,6 +14,7 @@ import { HeaderComponent } from '../header/header.component';
 import { UpdateUserService } from '../services/update-user.service';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 export interface UserInfo {
   _id: string;
   email: string;
@@ -18,59 +27,28 @@ export interface UserInfo {
 
 @Component({
   selector: 'app-main-layout',
-  imports: [RouterLink, RouterOutlet, HeaderComponent, CommonModule],
+  imports: [RouterOutlet, HeaderComponent, CommonModule, SidebarComponent],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss',
 })
-export class MainLayoutComponent implements OnInit, OnDestroy {
+export class MainLayoutComponent implements OnInit {
   constructor(
     private router: Router,
     private auth: AuthService,
     private apiService: ApiServiceService,
     private userService: UpdateUserService
   ) {}
-  loggedInUser: UserInfo | null = null;
-  user: any;
+  isSidebarOpen: any;
+  @ViewChild(SidebarComponent) sidebar!: SidebarComponent;
 
-  profilAvtar = 'avatar-3814081_640.png';
-  pic: any;
-  checkUser: any;
-  private subscription = new Subscription();
-  ngOnInit(): void {
-    this.loggedInUser = this.auth.getUserInfo().user;
-    let _id: any;
-    if (this.loggedInUser !== null) {
-      _id = this.loggedInUser._id;
-      this.fetchlogginginfo(_id);
+  // isSidebarOpen = false;
+  ngOnInit(): void {}
+  toggleSidebar(e: any) {
+    console.log(e);
+    this.isSidebarOpen = true;
+    if (this.sidebar) {
+      this.sidebar.toggleSidebar();
+      // isSidebarOpen = false;
     }
-    this.subscription = this.userService.userProfile$.subscribe((profile) => {
-      if (profile) {
-        this.fetchlogginginfo(_id);
-      }
-    });
-  }
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
-  loggedInUserDetails: any;
-  fetchlogginginfo(id: any): void {
-    const url = `fetch_user_by_id/${id}`;
-    this.apiService.get(url).subscribe({
-      next: (resp) => {
-        const { data } = resp;
-        if (data) {
-          this.loggedInUserDetails = data;
-        }
-      },
-      error: (error) => {
-        console.error(error);
-      },
-    });
-  }
-
-  logout() {
-    localStorage.clear();
-    this.router.navigate(['/']);
   }
 }

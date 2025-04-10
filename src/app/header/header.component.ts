@@ -1,4 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  input,
+  OnInit,
+  Output,
+  viewChild,
+} from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
@@ -19,6 +27,9 @@ export class HeaderComponent implements OnInit {
     private api: ApiServiceService,
     private userService: UpdateUserService
   ) {}
+  // @Input() isClicked: boolean = false;
+  @Output() isBtnClick = new EventEmitter<string>();
+
   user: any;
   ngOnInit(): void {
     // console.log(this.userService.user, 'header updated');
@@ -28,5 +39,8 @@ export class HeaderComponent implements OnInit {
   logout() {
     localStorage.removeItem('LoggedInUser');
     this.router.navigateByUrl('/login');
+  }
+  click() {
+    this.isBtnClick.emit('clicked');
   }
 }
