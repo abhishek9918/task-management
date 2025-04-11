@@ -37,15 +37,17 @@ export class SignUpComponent {
 
   onSubmit() {
     this.postUser(this.registerForm.value);
-    this.router.navigate(['/login']);
   }
   postUser(formData: any) {
     this.AuthService.createUser(formData).subscribe({
       next: (resp) => {
-        this._toaster.success(resp.message);
+        if (resp) {
+          this._toaster.success(resp.message);
+          this.router.navigate(['/login']);
+        }
       },
       error: (error) => {
-        this._toaster.success(error.message);
+        this._toaster.error(error.message);
       },
     });
   }
