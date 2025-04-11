@@ -1,8 +1,162 @@
-<div class="p-2 lg:p-6 h-full">
+<!-- <div class="p-2 lg:p-6 h-full">
+    <h2 class="text-3xl font-bold text-white mb-6">📋 Dashboard</h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+      <ng-container *ngFor="let item of countStatus?.taskCounts; let i = index">
+        <div [ngClass]="[colors[i], 'p-6', 'rounded-xl', 'shadow-lg']">
+          <p class="text-lg font-semibold text-white">
+            {{
+              item?.type === "totalTasks"
+                ? "Total Tasks"
+                : item?.type === "completedTasks"
+                ? "Completed"
+                : item?.type === "pendingTasks"
+                ? "Pending"
+                : item?.type === "inProgressTasks"
+                ? "In Progress"
+                : "Unknown"
+            }}
+          </p>
+          <p class="text-3xl font-bold text-blue-400">
+            {{ item?.count || 0 }}
+          </p>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="bg-gray-900 p-6 rounded-2xl shadow-xl mb-6">
+      <h3 class="text-2xl font-bold text-white mb-6">📊 Task Analytics</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
+          <p class="text-lg font-semibold text-white">Priority Distribution</p>
+          <div
+            id="chart"
+            *ngIf="chartOptions"
+            class="bg-gray-700 rounded mt-3 flex justify-center items-center text-gray-400 overflow-hidden"
+          >
+            <apx-chart
+              [series]="chartOptions.series!"
+              [chart]="chartOptions.chart!"
+              [xaxis]="chartOptions.xaxis!"
+              [dataLabels]="chartOptions.dataLabels!"
+              [stroke]="chartOptions.stroke!"
+              [title]="chartOptions.title!"
+              [legend]="chartOptions.legend!"
+              class="w-full max-w-full"
+            ></apx-chart>
+          </div>
+        </div>
+        <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
+          <p class="text-lg font-semibold text-white">Overall Progress</p>
+          <div class="relative pt-1">
+            <div class="flex mb-2 items-center justify-between">
+              <span class="text-white">Progress</span>
+              <span class="text-white">{{ progressPercentage }}%</span>
+            </div>
+            <div
+              class="overflow-hidden h-4 mb-4 text-xs flex rounded bg-gray-700"
+            >
+              <div
+                class="bg-blue-500 flex items-center justify-center text-white"
+                [style.width]="progressPercentage + '%'"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="bg-gradient-to-r from-black to-gray-800 p-6 rounded-2xl shadow-xl"
+    >
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-2xl font-bold text-white">📝 Recent Tasks</h3>
+        <input
+          type="text"
+          (keyup)="taskSearch($event)"
+          placeholder="🔍 Search Tasks"
+          class="px-4 py-2 rounded-lg bg-gray-700 text-white"
+        />
+      </div>
+
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="border-b border-gray-600 text-gray-300">
+            <th class="p-3">Task</th>
+            <th class="p-3">Status</th>
+            <th class="p-3">Due Date</th>
+            <th class="p-3">Actions</th>
+          </tr>
+        </thead>
+        {{
+          total
+        }}sss
+        <tbody *ngIf="searchTasked.length; else noTasks">
+          <tr
+            class="border-b border-gray-700 hover:bg-gray-800 transition text-white"
+            *ngFor="
+              let task of searchTasked
+                | paginate
+                  : { itemsPerPage: 5, currentPage: p, totalItems: total }
+            "
+          >
+            <td class="p-3" (click)="viewTask(task)">{{ task.task }}</td>
+            <td class="p-3">
+              <span
+                [ngClass]="{
+                  'bg-green-500': task.status === 'Completed',
+                  'bg-yellow-500': task.status === 'In_Progress',
+                  'bg-red-500': task.status === 'Pending'
+                }"
+                class="px-3 py-1 rounded-full text-sm text-white"
+              >
+                {{ task.status }}
+              </span>
+            </td>
+            <td class="p-3">{{ task.dueDate | date : "MMM d, yyyy" }}</td>
+            <td class="p-3 flex space-x-3">
+              <button
+                class="bg-blue-500 px-3 py-1 rounded text-white"
+                (click)="viewTask(task)"
+              >
+                View
+              </button>
+              <button class="bg-red-500 px-3 py-1 rounded text-white">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        <ng-template #noTasks>
+          <tr>
+            <td colspan="4" class="text-center text-gray-400 p-4">
+              No tasks available
+            </td>
+          </tr>
+        </ng-template>
+      </table>
+
+      <div class="flex justify-end mt-6">
+        <pagination-controls
+          previousLabel="Prev"
+          nextLabel="Next"
+          [maxSize]="5"
+          (pageChange)="pageChangeEvent($event)"
+        ></pagination-controls>
+      </div>
+    </div>
+  </div>
+
+  <app-laoder [isLoading]="isloader"></app-laoder> -->
+
+<div class="p-2 sm:p-6">
   <h2 class="text-3xl font-bold text-white mb-6">📋 Dashboard</h2>
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+
+  <!-- Count Status -->
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-6"
+  >
     <ng-container *ngFor="let item of countStatus?.taskCounts; let i = index">
-      <div [ngClass]="[colors[i], 'p-6', 'rounded-xl', 'shadow-lg']">
+      <div [ngClass]="[colors[i], 'p-4', 'sm:p-6', 'rounded-xl', 'shadow-lg']">
         <p class="text-lg font-semibold text-white">
           {{
             item?.type === "totalTasks"
@@ -23,11 +177,17 @@
     </ng-container>
   </div>
 
-  <div class="bg-gray-900 p-6 rounded-2xl shadow-xl mb-6">
-    <h3 class="text-2xl font-bold text-white mb-6">📊 Task Analytics</h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <!-- Task Analytics -->
+  <div class="bg-gray-900 p-4 sm:p-6 rounded-2xl shadow-xl mb-6">
+    <h3 class="text-2xl font-bold text-white mb-4 sm:mb-6">
+      📊 Task Analytics
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+      <!-- Priority Chart -->
       <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
-        <p class="text-lg font-semibold text-white">Priority Distribution</p>
+        <p class="text-lg font-semibold text-white mb-2">
+          Priority Distribution
+        </p>
         <div
           id="chart"
           *ngIf="chartOptions"
@@ -45,8 +205,10 @@
           ></apx-chart>
         </div>
       </div>
+
+      <!-- Progress Bar -->
       <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
-        <p class="text-lg font-semibold text-white">Overall Progress</p>
+        <p class="text-lg font-semibold text-white mb-2">Overall Progress</p>
         <div class="relative pt-1">
           <div class="flex mb-2 items-center justify-between">
             <span class="text-white">Progress</span>
@@ -65,20 +227,23 @@
     </div>
   </div>
 
+  <!-- Recent Tasks Table -->
   <div
-    class="bg-gradient-to-r from-black to-gray-800 p-6 rounded-2xl shadow-xl"
+    class="bg-gradient-to-r from-black to-gray-800 p-4 sm:p-6 rounded-2xl shadow-xl overflow-x-auto"
   >
-    <div class="flex justify-between items-center mb-4">
+    <div
+      class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4"
+    >
       <h3 class="text-2xl font-bold text-white">📝 Recent Tasks</h3>
       <input
         type="text"
         (keyup)="taskSearch($event)"
         placeholder="🔍 Search Tasks"
-        class="px-4 py-2 rounded-lg bg-gray-700 text-white"
+        class="px-4 py-2 rounded-lg bg-gray-700 text-white w-full md:w-auto"
       />
     </div>
 
-    <table class="w-full text-left border-collapse">
+    <table class="w-full min-w-[600px] text-left border-collapse">
       <thead>
         <tr class="border-b border-gray-600 text-gray-300">
           <th class="p-3">Task</th>
@@ -87,9 +252,7 @@
           <th class="p-3">Actions</th>
         </tr>
       </thead>
-      {{
-        total
-      }}sss
+
       <tbody *ngIf="searchTasked.length; else noTasks">
         <tr
           class="border-b border-gray-700 hover:bg-gray-800 transition text-white"
@@ -99,7 +262,9 @@
                 : { itemsPerPage: 5, currentPage: p, totalItems: total }
           "
         >
-          <td class="p-3" (click)="viewTask(task)">{{ task.task }}</td>
+          <td class="p-3 cursor-pointer" (click)="viewTask(task)">
+            {{ task.task }}
+          </td>
           <td class="p-3">
             <span
               [ngClass]="{
@@ -113,7 +278,7 @@
             </span>
           </td>
           <td class="p-3">{{ task.dueDate | date : "MMM d, yyyy" }}</td>
-          <td class="p-3 flex space-x-3">
+          <td class="p-3 flex gap-2">
             <button
               class="bg-blue-500 px-3 py-1 rounded text-white"
               (click)="viewTask(task)"
@@ -126,6 +291,7 @@
           </td>
         </tr>
       </tbody>
+
       <ng-template #noTasks>
         <tr>
           <td colspan="4" class="text-center text-gray-400 p-4">

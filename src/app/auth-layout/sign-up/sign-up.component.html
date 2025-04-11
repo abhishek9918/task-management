@@ -1,4 +1,4 @@
-<body>
+<!-- <body>
   <section class="min-h-screen flex items-stretch text-white">
     <div
       class="lg:flex w-1/2 hidden bg-gray-500 bg-no-repeat bg-cover relative items-center"
@@ -179,6 +179,140 @@
               </a>
             </div>
           </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</body> -->
+
+<body>
+  <section class="min-h-screen flex flex-col lg:flex-row text-white">
+    <!-- Left Section for Large Screens -->
+    <div
+      class="hidden lg:flex w-1/2 bg-cover bg-no-repeat bg-center relative items-center"
+      style="
+        background-image: url('https://images.unsplash.com/photo-1577495508048-b635879837f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80');
+      "
+    >
+      <div class="absolute inset-0 bg-black opacity-60 z-0"></div>
+      <div class="w-full px-16 z-10">
+        <h1 class="text-5xl font-bold mb-4">Keep it special</h1>
+        <p class="text-2xl">
+          Capture your personal memory in unique way, anywhere.
+        </p>
+      </div>
+      <div
+        class="absolute bottom-4 left-0 right-0 flex justify-center gap-4 z-10"
+      >
+        <!-- Social Icons -->
+        <span
+          ><img
+            src="https://www.svgrepo.com/show/183608/twitter.svg"
+            class="w-6 h-6"
+            alt="Twitter"
+        /></span>
+        <span
+          ><img
+            src="https://www.svgrepo.com/show/452196/facebook-1.svg"
+            class="w-6 h-6"
+            alt="Facebook"
+        /></span>
+        <span
+          ><img
+            src="https://www.svgrepo.com/show/303145/instagram-2-1-logo.svg"
+            class="w-6 h-6"
+            alt="Instagram"
+        /></span>
+      </div>
+    </div>
+
+    <!-- Right Section (Form) -->
+    <div
+      class="w-full lg:w-1/2 flex items-center justify-center px-6 sm:px-12 lg:px-24 bg-[#161616] relative"
+    >
+      <!-- Background for Mobile Only -->
+      <div
+        class="absolute lg:hidden inset-0 bg-cover bg-center bg-no-repeat z-0"
+        style="
+          background-image: url('https://images.unsplash.com/photo-1577495508048-b635879837f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80');
+        "
+      >
+        <div class="absolute inset-0 bg-black opacity-60"></div>
+      </div>
+
+      <!-- Form Card -->
+      <div class="w-full max-w-md z-10 py-10">
+        <div class="mb-6 text-center">
+          <span class="text-xl text-red-500">Welcome</span>
+          <h1 class="text-3xl font-bold mt-2">Create your account</h1>
+          <p class="text-gray-300 mt-1">Join us and enjoy all the benefits</p>
+        </div>
+
+        <form
+          [formGroup]="registerForm"
+          (ngSubmit)="onSubmit()"
+          class="space-y-5"
+        >
+          <input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="Username"
+            formControlName="userName"
+            class="w-full p-3 rounded bg-black text-white placeholder-gray-400"
+          />
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Email"
+            formControlName="email"
+            class="w-full p-3 rounded bg-black text-white placeholder-gray-400"
+          />
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Password"
+            formControlName="password"
+            class="w-full p-3 rounded bg-black text-white placeholder-gray-400"
+          />
+          <div class="text-right text-sm text-gray-400">
+            Already have an account?
+            <a
+              routerLink="/login"
+              class="text-indigo-500 hover:text-indigo-400 font-medium"
+              >Log in</a
+            >
+          </div>
+          <button
+            type="submit"
+            class="w-full bg-green-500 hover:bg-green-400 transition py-3 rounded text-white font-semibold"
+          >
+            Sign up now
+          </button>
+        </form>
+
+        <!-- Social Icons for Mobile -->
+        <div class="flex justify-center gap-6 mt-12 lg:hidden">
+          <a href="#"
+            ><img
+              src="https://www.svgrepo.com/show/183608/twitter.svg"
+              class="w-6 h-6"
+              alt="Twitter"
+          /></a>
+          <a href="#"
+            ><img
+              src="https://www.svgrepo.com/show/452196/facebook-1.svg"
+              class="w-6 h-6"
+              alt="Facebook"
+          /></a>
+          <a href="#"
+            ><img
+              src="https://www.svgrepo.com/show/303145/instagram-2-1-logo.svg"
+              class="w-6 h-6"
+              alt="Instagram"
+          /></a>
         </div>
       </div>
     </div>

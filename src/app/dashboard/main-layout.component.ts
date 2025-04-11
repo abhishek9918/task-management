@@ -45,7 +45,8 @@ export class MainLayoutComponent implements OnInit {
   ngOnInit(): void {}
   toggleSidebar(e: any) {
     console.log(e);
-    this.isSidebarOpen = true;
+    this.isSidebarOpen = e;
+
     if (this.sidebar) {
       this.sidebar.toggleSidebar();
       // isSidebarOpen = false;

@@ -12,10 +12,11 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { ApiServiceService } from '../services/api-service.service';
 import { UpdateUserService } from '../services/update-user.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -28,7 +29,7 @@ export class HeaderComponent implements OnInit {
     private userService: UpdateUserService
   ) {}
   // @Input() isClicked: boolean = false;
-  @Output() isBtnClick = new EventEmitter<string>();
+  @Output() isBtnClick = new EventEmitter<boolean>();
 
   user: any;
   ngOnInit(): void {
@@ -40,7 +41,13 @@ export class HeaderComponent implements OnInit {
     localStorage.removeItem('LoggedInUser');
     this.router.navigateByUrl('/login');
   }
-  click() {
-    this.isBtnClick.emit('clicked');
+  openHide: boolean = false;
+  click(string: any) {
+    if (string === 'Open') {
+      this.openHide = true;
+    } else {
+      this.openHide = false;
+    }
+    this.isBtnClick.emit(true);
   }
 }

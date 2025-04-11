@@ -5,11 +5,12 @@
       '-translate-x-full opacity-0': !isSidebarOpen
     }"
     class="fixed inset-y-0 left-0 bg-gradient-to-b from-gray-900 to-gray-800/90 text-white transition-all duration-500 ease-in-out transform lg:relative lg:flex flex-col h-full p-6 shadow-2xl w-64 backdrop-blur-xl border-r border-white/10 z-20"
-    style="height: 100%; min-height: 100vmin"
+    style="height: 100%; min-height: 91vmin"
   >
     <div
       class="flex items-center space-x-4 p-3 bg-white/10 rounded-xl mb-6 shadow-inner backdrop-blur-md"
     >
+      <!-- (click)="closeSidebar.emit()" -->
       <img
         [src]="
           loggedInUserDetails?.profilePicture
@@ -20,17 +21,23 @@
         class="w-12 h-12 rounded-full border-2 border-white/30 shadow"
       />
       <div>
-        <h3 class="text-lg font-semibold">
+        <h3 class="text-lg font-semibold text-white">
           {{ loggedInUserDetails?.userName }}
         </h3>
-        <p class="text-sm text-gray-300">{{ loggedInUserDetails?.email }}</p>
+        <p
+          class="text-sm text-gray-300 truncate w-full max-w-24"
+          [title]="loggedInUserDetails?.email"
+        >
+          {{ loggedInUserDetails?.email }}
+        </p>
       </div>
     </div>
 
     <h2 class="text-xl font-bold mb-6 tracking-wide text-white/90">
       🧠 Task Manager
     </h2>
-    <ul class="space-y-3">
+
+    <ul class="space-y-3 flex-1 overflow-y-auto">
       <li *ngFor="let link of navLinks">
         <a
           [routerLink]="link.path"
@@ -49,5 +56,30 @@
         </a>
       </li>
     </ul>
+
+    <div>
+      <button
+        (click)="logout()"
+        class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-red-600 hover:bg-red-700 transition-all duration-300 shadow-lg text-white font-semibold tracking-wide text-sm"
+      >
+        <span class="text-lg"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M16 17l5-5-5-5" />
+            <path d="M21 12H9" />
+            <path d="M9 21H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5" /></svg
+        ></span>
+        Logout
+      </button>
+    </div>
   </div>
 </div>

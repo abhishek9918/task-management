@@ -1,11 +1,14 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  ElementRef,
   EventEmitter,
+  HostListener,
   Input,
   OnDestroy,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import {
   RouterLink,
@@ -42,7 +45,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   ) {}
   loggedInUser: UserInfo | null = null;
   user: any;
-
+  @ViewChild('sidebar') sidebarRef!: ElementRef;
   profilAvtar = 'avatar-3814081_640.png';
   pic: any;
   checkUser: any;
@@ -99,4 +102,19 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.isSidebarOpen = !this.isSidebarOpen;
     console.log('Sidebar Toggled:', this.isSidebarOpen);
   }
+  logout() {
+    localStorage.removeItem('LoggedInUser');
+    this.router.navigateByUrl('/login');
+  }
+  // @Output() closeSidebar = new EventEmitter<void>();
+  // @HostListener('document:click', ['$event'])
+  // onDocumentClick(event: MouseEvent): void {
+  //   const clickedInside = this.sidebarRef?.nativeElement?.contains(
+  //     event.target
+  //   );
+  //   console.log(clickedInside);
+  //   if (!clickedInside && this.isSidebarOpen) {
+  //     this.isSidebarOpen = false;
+  //   }
+  // }
 }
