@@ -1,8 +1,5 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:1517',
-  customVar: 'value_for_dev',
+  deployedEnv: 'Local ✅',
 };
-
-console.log('Testing environment');
-console.log('Testing environment');

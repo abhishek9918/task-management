@@ -1,7 +1,5 @@
 export const environment = {
   production: true,
   apiUrl: 'https://taskmanagement-sitq.onrender.com',
-  customVar: 'value_for_prod',
+  deployedEnv: 'PRODUCTION ✅',
 };
-
-console.log('Production environment');

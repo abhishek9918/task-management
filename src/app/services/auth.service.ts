@@ -38,6 +38,8 @@ export class AuthService {
   //   return this._http.post<signUpResponse>(this.signUpUrl, requestPayload);
   // }
   createUser(requestPayload: singUp): Observable<signUpResponse> {
+    console.log(environment.deployedEnv, 'Enf');
+    console.log(environment.production, 'Enf');
     return this._http.post<signUpResponse>(this.signUpUrl, requestPayload).pipe(
       map((response: signUpResponse) => {
         if (response.success) {
