@@ -11,6 +11,7 @@
 import { HttpClient, HttpHeaders, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, of, throwError } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +19,12 @@ import { catchError, map, of, throwError } from 'rxjs';
 export class ApiServiceService {
   // baseUrl = 'https://ecommerce-api-ojn7.onrender.com';
   // baseUrl = environment.baseUrl;
-  baseUrl = 'http://localhost:1517/';
-  constructor(private _httpclient: HttpClient) {}
+  // baseUrl = 'http://localhost:1517/';
+  baseUrl = environment.apiUrl;
+
+  constructor(private _httpclient: HttpClient) {
+    console.log(this.baseUrl, 'baseUrl');
+  }
 
   post(url: string, data?: any) {
     const httpOptions = this.getHttpHeader();
