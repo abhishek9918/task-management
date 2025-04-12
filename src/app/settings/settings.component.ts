@@ -79,7 +79,19 @@ export class SettingsComponent implements OnInit {
   }
   onImageChange(event: any): void {
     const file = event.target.files[0];
+
     if (file) {
+      const fileType = file.type;
+      const fileSize = file.size / 1024 / 1024; // in MB
+      // Validate file type and size
+      if (!['image/jpeg', 'image/png'].includes(fileType)) {
+        this._toastr.error('Only JPG and PNG formats are allowed');
+        return;
+      }
+      if (fileSize > 1) {
+        this._toastr.error('File size should be less than 1MB');
+        return;
+      }
       const reader = new FileReader();
       reader.onload = (e: ProgressEvent<FileReader>) => {
         if (e.target && e.target.result) {
