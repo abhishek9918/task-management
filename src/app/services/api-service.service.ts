@@ -20,7 +20,7 @@ export class ApiServiceService {
   // baseUrl = 'https://ecommerce-api-ojn7.onrender.com';
   // baseUrl = environment.baseUrl;
   // baseUrl = 'http://localhost:1517/';
-  baseUrl = environment.apiUrl;
+  baseUrl = environment.apiUrl + '/';
 
   constructor(private _httpclient: HttpClient) {
     console.log(this.baseUrl, 'baseUrl');
