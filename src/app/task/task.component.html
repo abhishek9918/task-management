@@ -1,4 +1,4 @@
-<div class="p-6">
+<!-- <div class="p-6">
   <h2 class="text-3xl font-bold text-white mb-6">📝 Task Manager</h2>
 
   <div
@@ -47,13 +47,6 @@
           <option value="status">✅ Sort by Status</option>
         </select>
       </div>
-
-      <button
-        (click)="createTask()"
-        class="flex items-center gap-2 bg-blue-500 text-white px-5 py-2 rounded-lg shadow hover:bg-blue-600 transition"
-      >
-        ➕ Add Task
-      </button>
     </div>
 
     <div class="bg-gray-900 p-6 rounded-2xl shadow-xl">
@@ -63,6 +56,7 @@
           <span class="text-sm text-gray-400">({{ searchTasked.length }})</span>
         </h3>
         <button
+          (click)="createTask()"
           class="bg-blue-600 hover:bg-blue-700 transition px-4 py-2 text-sm font-medium rounded-lg text-white shadow-md"
         >
           ➕ Add Task
@@ -130,17 +124,6 @@
                   </span>
                 </td>
                 <td class="px-6 py-4">
-                  <!-- <span
-                    class="px-3 py-1 rounded-lg text-xs font-semibold shadow"
-                    [ngClass]="{
-                      'bg-green-500 text-white': item.status === 'Completed',
-                      'bg-yellow-500 text-gray-900':
-                        item.status === 'In Progress',
-                      'bg-red-500 text-white': item.status === 'Pending'
-                    }"
-                  >
-                    {{ item.status }}
-                  </span> -->
                   <select
                     name=""
                     (change)="changeStatus(item, $event)"
@@ -175,6 +158,200 @@
       </ng-container>
     </div>
 
+    <div class="flex justify-center mt-6">
+      <pagination-controls
+        previousLabel="Prev"
+        nextLabel="Next"
+        [maxSize]="5"
+        (pageChange)="pageChangeEvent($event)"
+      ></pagination-controls>
+    </div>
+  </ng-container>
+</div>
+
+<app-laoder [isLoading]="isloader"></app-laoder> -->
+
+<div class="p-2 sm:p-6">
+  <h2
+    class="text-2xl sm:text-3xl font-bold text-white mb-6 text-center sm:text-left"
+  >
+    📝 Task Manager
+  </h2>
+
+  <!-- Empty State -->
+  <div
+    *ngIf="searchTasked.length === 0 && searchTerm === ''"
+    class="flex flex-col items-center justify-center min-h-[200px] py-10 text-center"
+  >
+    <img
+      src="https://cdn-icons-png.flaticon.com/512/4076/4076432.png"
+      alt="No Tasks"
+      class="w-24 sm:w-32 h-24 sm:h-32 opacity-80"
+    />
+    <h3 class="text-lg sm:text-xl font-semibold text-gray-300 mt-4">
+      No Task created yet
+    </h3>
+    <p class="text-gray-400 text-sm mt-2">Start by adding a new task</p>
+    <button
+      (click)="createTask()"
+      class="mt-4 px-4 py-2 sm:px-5 sm:py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition"
+    >
+      ➕ Add Task
+    </button>
+  </div>
+
+  <!-- Search + Sort -->
+  <ng-container *ngIf="searchTasked.length > 0 || searchTerm !== ''">
+    <div
+      class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4"
+    >
+      <div
+        class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full"
+      >
+        <div class="relative w-full sm:w-64">
+          <input
+            (keyup)="taskSearch($event)"
+            type="text"
+            placeholder="🔍 Search tasks..."
+            class="w-full h-10 p-2 pl-10 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
+          />
+          <span
+            class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+            >🔍</span
+          >
+        </div>
+
+        <select
+          class="w-full sm:w-auto h-10 p-2 border rounded-lg bg-gray-800 text-white shadow-sm"
+          (change)="sortTask($event)"
+        >
+          <option value="date">📅 Sort by Date</option>
+          <option value="priority">🔥 Sort by Priority</option>
+          <option value="status">✅ Sort by Status</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Task Section -->
+    <div class="bg-gray-900 p-2 sm:p-6 rounded-2xl shadow-xl overflow-auto">
+      <div
+        class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4"
+      >
+        <h3
+          class="text-2xl sm:text-3xl font-bold text-white flex items-center gap-2"
+        >
+          📌 Your Tasks
+          <span class="text-sm text-gray-400">({{ searchTasked.length }})</span>
+        </h3>
+        <button
+          (click)="createTask()"
+          class="bg-blue-600 hover:bg-blue-700 transition px-4 py-2 text-sm font-medium rounded-lg text-white shadow-md"
+        >
+          ➕ Add Task
+        </button>
+      </div>
+
+      <!-- No Results Found -->
+      <div
+        *ngIf="searchTasked.length === 0 && searchTerm !== ''"
+        class="flex flex-col items-center justify-center min-h-[200px] py-10 text-center"
+      >
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/4076/4076432.png"
+          alt="No Tasks"
+          class="w-20 sm:w-28 h-20 sm:h-28 opacity-80"
+        />
+        <h3 class="text-lg font-semibold text-gray-300 mt-4">No tasks found</h3>
+        <p class="text-gray-400 text-sm mt-2">
+          Try adjusting your search or filters
+        </p>
+      </div>
+
+      <!-- Task Table -->
+      <ng-container *ngIf="searchTasked.length > 0">
+        <div class="overflow-x-auto rounded-lg shadow-lg mt-4">
+          <table
+            class="min-w-full text-sm text-left text-gray-400 bg-gray-800 rounded-lg"
+          >
+            <thead class="text-xs uppercase bg-gray-700 text-gray-300">
+              <tr>
+                <th class="px-4 py-3">Task</th>
+                <th class="px-4 py-3">Due Date</th>
+                <th class="px-4 py-3">Created At</th>
+                <th class="px-4 py-3">Priority</th>
+                <th class="px-4 py-3">Status</th>
+                <th class="px-4 py-3 text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let item of searchTasked
+                    | paginate
+                      : { itemsPerPage: 5, currentPage: p, totalItems: total }
+                "
+                class="border-b border-gray-700 hover:bg-gray-750 transition"
+              >
+                <td
+                  class="px-4 py-4 text-white font-medium break-words max-w-[180px]"
+                >
+                  {{ item.task }}
+                </td>
+                <td class="px-4 py-4">
+                  {{ item.dueDate | date : "MMM d, yyyy" }}
+                </td>
+                <td class="px-4 py-4">
+                  {{ item.createdAt | date : "MMM d, yyyy, h:mm a" }}
+                </td>
+                <td class="px-4 py-4">
+                  <span
+                    class="px-2 py-1 rounded-lg text-xs font-semibold"
+                    [ngClass]="{
+                      'bg-red-500 text-white': item.priority === 'high',
+                      'bg-yellow-400 text-gray-900': item.priority === 'medium',
+                      'bg-green-500 text-white': item.priority === 'low'
+                    }"
+                  >
+                    {{ item.priority | uppercase }}
+                  </span>
+                </td>
+                <td class="px-4 py-4">
+                  <select
+                    (change)="changeStatus(item, $event)"
+                    class="bg-gray-900 w-full text-sm rounded-md"
+                    [ngModel]="item.status"
+                  >
+                    <option [value]="null" disabled>Select</option>
+                    @for (status of item.taskStatus;track status; let index =
+                    $index) {
+                    <option [value]="status.status">{{ status.status }}</option>
+                    }
+                  </select>
+                </td>
+                <td
+                  class="px-4 py-4 flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-2"
+                >
+                  <button
+                    (click)="editTask(item._id)"
+                    class="bg-yellow-400 text-white px-3 py-1 rounded-md hover:bg-yellow-500 transition text-xs w-full sm:w-auto"
+                  >
+                    ✏️ Edit
+                  </button>
+                  <button
+                    (click)="deleteTask(item._id)"
+                    class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition text-xs w-full sm:w-auto"
+                  >
+                    🗑 Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- Pagination -->
     <div class="flex justify-center mt-6">
       <pagination-controls
         previousLabel="Prev"

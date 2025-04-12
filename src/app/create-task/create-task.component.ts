@@ -31,9 +31,7 @@ export class CreateTaskComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.routerId = this.activateRoute.snapshot.params['id'];
-
-    if (this.routerId) this.getTaskById(this.routerId); // update existing task
-    // this.updateTaskById()
+    if (this.routerId) this.getTaskById(this.routerId);
   }
 
   initForm() {
@@ -56,11 +54,8 @@ export class CreateTaskComponent implements OnInit {
       user: this.AuthService.getUserInfo().user,
     };
     if (this.routerId) {
-      console.log(this.routerId, 'if');
       this.updateTask(formVal);
     } else {
-      console.log(this.routerId, 'Else');
-
       this.createTask(formVal);
     }
   }
@@ -68,8 +63,10 @@ export class CreateTaskComponent implements OnInit {
   createTask(form: any) {
     this.api.post('create_task', form).subscribe({
       next: (data) => {
-        this.taskGroup.reset();
-        this.router.navigate(['dashboard/tasks']);
+        if (data) {
+          this.router.navigate(['dashboard/tasks']);
+          this.taskGroup.reset();
+        }
       },
       error: (error) => console.error(error),
     });
@@ -80,7 +77,6 @@ export class CreateTaskComponent implements OnInit {
       next: (resp) => {
         const { data } = resp;
         console.log(moment(data.dueDate).format('DD-MM-yyyy'));
-        // console.log(this.datePipe.transform(data.dueDate, 'DD-mm-yyyy'));
         this.taskGroup.patchValue({
           task: data.task,
           status: data.status,
