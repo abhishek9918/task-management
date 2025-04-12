@@ -7,16 +7,19 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private _http: HttpClient, private _router: Router) {}
-  // token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ.';
   baseUrl = environment.apiUrl + '/login_user';
   signUpUrl = environment.apiUrl + '/register_user';
+  constructor(private _http: HttpClient, private _router: Router) {
+    console.log('Base URL:', environment.apiUrl);
+  }
+  // token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ.';
   // baseUrl = environment.baseUrl + '/login_user';
   // signUpUrl = environment.baseUrl + '/register_user';
   // login(requestPayload: Login): Observable<LoginResponse> {
   //   return this._http.post<LoginResponse>(this.baseUrl, requestPayload);
   // }
   login(requestPayload: Login): Observable<logResponse> {
+    console.log('Logging in using:', this.baseUrl);
     return this._http.post<logResponse>(this.baseUrl, requestPayload).pipe(
       map((response: logResponse) => {
         if (response && response.token && response.data) {
@@ -38,8 +41,7 @@ export class AuthService {
   //   return this._http.post<signUpResponse>(this.signUpUrl, requestPayload);
   // }
   createUser(requestPayload: singUp): Observable<signUpResponse> {
-    console.log(environment.deployedEnv, 'Enf');
-    console.log(environment.production, 'Enf');
+    console.log('singing in using:', this.signUpUrl);
     return this._http.post<signUpResponse>(this.signUpUrl, requestPayload).pipe(
       map((response: signUpResponse) => {
         if (response.success) {
