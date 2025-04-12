@@ -97,24 +97,25 @@ export class SidebarComponent implements OnInit, OnDestroy {
     { label: 'Tasks', link: '/dashboard/tasks', icon: '📝' },
     { label: 'Settings', link: '/dashboard/settings', icon: '⚙️' },
   ];
-
+  openHideSidebar: boolean = false;
   toggleSidebar() {
-    this.isSidebarOpen = !this.isSidebarOpen;
-    console.log('Sidebar Toggled:', this.isSidebarOpen);
+    console.log('clicke');
+    this.openHideSidebar = !this.openHideSidebar;
   }
   logout() {
     localStorage.removeItem('LoggedInUser');
     this.router.navigateByUrl('/login');
   }
-  // @Output() closeSidebar = new EventEmitter<void>();
-  // @HostListener('document:click', ['$event'])
-  // onDocumentClick(event: MouseEvent): void {
-  //   const clickedInside = this.sidebarRef?.nativeElement?.contains(
-  //     event.target
-  //   );
-  //   console.log(clickedInside);
-  //   if (!clickedInside && this.isSidebarOpen) {
-  //     this.isSidebarOpen = false;
-  //   }
-  // }
+  collapse: boolean = false;
+  @Output() closeSidebar = new EventEmitter<void>();
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const clickedInside = this.sidebarRef?.nativeElement?.contains(
+      event.target
+    );
+    console.log(clickedInside);
+    if (!clickedInside && this.isSidebarOpen) {
+      this.isSidebarOpen = false;
+    }
+  }
 }

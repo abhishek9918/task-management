@@ -1,55 +1,18 @@
-<!-- 
 <div class="h-screen flex flex-col">
   <app-header (isBtnClick)="toggleSidebar($event)"></app-header>
-
-  <div class="flex-1 flex overflow-hidden">
-    <div class="w-64 hidden lg:block">
-      <app-sidebar></app-sidebar>
-    </div>
-
+  <div class="flex flex-1 overflow-hidden relative">
     <div
-      *ngIf="isSidebarOpen"
-      class="lg:hidden absolute inset-0 z-50 bg-black bg-opacity-70"
-    >
-      <div class="w-64 bg-gray-900 h-full shadow-lg">
-        <app-sidebar></app-sidebar>
-      </div>
-    </div>
-
-    <div class="flex-1 overflow-y-auto p-4">
-      <router-outlet></router-outlet>
-    </div>
-  </div>
-</div> -->
-
-<div class="h-screen flex flex-col">
-  <app-header (isBtnClick)="toggleSidebar($event)"></app-header>
-
-  <!-- Mobile View -->
-  <div class="lg:hidden">
-    <div *ngIf="isSidebarOpen" class="w-full">
-      <app-sidebar (closeSidebar)="isSidebarOpen = false"></app-sidebar>
-    </div>
-    <div class="p-4">
-      <router-outlet></router-outlet>
-    </div>
-  </div>
-
-  <!-- Desktop View -->
-  <div class="hidden lg:flex flex-1 overflow-hidden">
-    <!-- Sidebar Section -->
-    <div
+      id="isSidebar"
+      class="fixed lg:relative inset-y-0 left-0 w-64 bg-gray-900 text-white z-30 lg:z-0 transition-all duration-700 ease-in-out lg:translate-x-0 lg:opacity-100"
       [ngClass]="{
-        'w-64': isSidebarOpen,
-        'w-0': !isSidebarOpen
+        'translate-x-0 opacity-100': sidebarVisible,
+        '-translate-x-full opacity-0': !sidebarVisible
       }"
-      class="transition-all duration-300 ease-in-out overflow-hidden"
     >
-      <app-sidebar *ngIf="isSidebarOpen"></app-sidebar>
+      <app-sidebar #openHide></app-sidebar>
     </div>
 
-    <!-- Main Content -->
-    <div class="flex-1 overflow-auto p-4">
+    <div class="flex-1 overflow-y-auto p-4 z-10">
       <router-outlet></router-outlet>
     </div>
   </div>

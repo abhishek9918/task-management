@@ -7,7 +7,7 @@
 
   <svg
     *ngIf="!openHide"
-    (click)="click('Open')"
+    (click)="click(true)"
     xmlns="http://www.w3.org/2000/svg"
     class="w-9 h-9 text-white block lg:hidden cursor-pointer transition-transform duration-200 hover:scale-110"
     fill="none"
@@ -24,7 +24,7 @@
 
   <svg
     *ngIf="openHide"
-    (click)="click('Close')"
+    (click)="click(false)"
     xmlns="http://www.w3.org/2000/svg"
     class="w-9 h-9 text-white block lg:hidden cursor-pointer transition-transform duration-200 hover:scale-110"
     fill="none"

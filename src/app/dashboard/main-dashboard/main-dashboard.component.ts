@@ -6,7 +6,7 @@ import { AuthService } from '../../services/auth.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { LaoderComponent } from '../../laoder/laoder.component';
 import { CommonModule } from '@angular/common';
-import { map } from 'rxjs';
+import { count, map } from 'rxjs';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -136,10 +136,15 @@ export class MainDashboardComponent implements OnInit, AfterViewInit {
         if (resp.success) {
           this.taskArray = resp.data;
           this.countStatus = resp;
-
+          const totalT =
+            resp.taskCounts.find((e: any) => e.type === 'totalTasks')?.count ||
+            0;
+          const ctask =
+            resp.taskCounts.find((e: any) => e.type === 'completedTasks')
+              ?.count || 0;
+          this.progressPercentage = totalT === 0 ? 0 : (ctask / totalT) * 100;
           this.searchTasked = [...this.taskArray];
           this.total = resp.totalElements;
-          console.log('total', this.total);
 
           if (this.taskArray.length === 0 && this.p > 1) {
             this.p--;
@@ -159,7 +164,7 @@ export class MainDashboardComponent implements OnInit, AfterViewInit {
     this.p = event;
     this.getAllTasks();
   }
-  progressPercentage: any = 10;
+  progressPercentage: any = 0;
 
   viewTask(task: any) {
     this.router.navigate(['/dashboard/tasks/view-task', task._id]);
@@ -184,7 +189,6 @@ export class MainDashboardComponent implements OnInit, AfterViewInit {
         if (resp.success && resp.data.length > 0) {
           this.searchTasked = [...resp.data];
           this.total = resp.totalTasks;
-          console.log(this.total, 'Total tasks');
         } else {
           this.searchTasked = [];
         }

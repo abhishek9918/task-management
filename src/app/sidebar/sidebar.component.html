@@ -1,16 +1,11 @@
 <div #openHide>
   <div
-    [ngClass]="{
-      'translate-x-0 opacity-100': isSidebarOpen,
-      '-translate-x-full opacity-0': !isSidebarOpen
-    }"
     class="fixed inset-y-0 left-0 bg-gradient-to-b from-gray-900 to-gray-800/90 text-white transition-all duration-500 ease-in-out transform lg:relative lg:flex flex-col h-full p-6 shadow-2xl w-64 backdrop-blur-xl border-r border-white/10 z-20"
     style="height: 100%; min-height: 91vmin"
   >
     <div
       class="flex items-center space-x-4 p-3 bg-white/10 rounded-xl mb-6 shadow-inner backdrop-blur-md"
     >
-      <!-- (click)="closeSidebar.emit()" -->
       <img
         [src]="
           loggedInUserDetails?.profilePicture

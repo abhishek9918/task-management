@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit {
     private userService: UpdateUserService
   ) {}
   // @Input() isClicked: boolean = false;
-  @Output() isBtnClick = new EventEmitter<boolean>();
+  @Output() isBtnClick = new EventEmitter<any>();
 
   user: any;
   ngOnInit(): void {
@@ -43,11 +43,12 @@ export class HeaderComponent implements OnInit {
   }
   openHide: boolean = false;
   click(string: any) {
-    if (string === 'Open') {
+    if (string === true) {
+      this.isBtnClick.emit(true);
       this.openHide = true;
     } else {
+      this.isBtnClick.emit(false);
       this.openHide = false;
     }
-    this.isBtnClick.emit(true);
   }
 }
