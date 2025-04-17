@@ -30,8 +30,11 @@ export class CreateUsersComponent implements OnInit {
   ) {}
   userForm!: FormGroup;
   routerId: any;
+  loggedInUser: any;
   ngOnInit(): void {
     this.routerId = this.activateRoute.snapshot.params['id'];
+    this.loggedInUser = this.AuthService.getUserInfo().user;
+
     this.fetchlogginginfo(this.routerId);
     this.initForm();
   }
@@ -73,24 +76,25 @@ export class CreateUsersComponent implements OnInit {
 
   submitForm() {
     if (!this.userForm.valid) return;
+    const updateUser = {
+      userName: this.userForm.value.userName,
+      _id: this.routerId,
+      email: this.userForm.value.email,
+      password: this.userForm.value.password,
+      role: this.userForm.value.role,
+      status: this.userForm.value.status,
+      firstName: this.userForm.value.firstName,
+      lastName: this.userForm.value.lastName,
+      createdBy: this.loggedInUser._id,
+    };
     if (this.routerId) {
-      const updateUser = {
-        userName: this.userForm.value.userName,
-        _id: this.routerId,
-        email: this.userForm.value.email,
-        password: this.userForm.value.password,
-        role: this.userForm.value.role,
-        status: this.userForm.value.status,
-        firstName: this.userForm.value.firstName,
-        lastName: this.userForm.value.lastName,
-      };
       this.updateUser(updateUser);
     } else {
-      this.postUser(this.userForm.value);
+      this.postUser(updateUser);
     }
   }
 
-  postUser(formData: FormGroup) {
+  postUser(formData: any) {
     const url = 'createUserByAdmin';
     this.api.post(url, formData).subscribe({
       next: (resp) => {

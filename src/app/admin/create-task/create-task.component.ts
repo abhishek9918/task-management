@@ -119,7 +119,7 @@ export class CreateTaskComponent implements OnInit {
     this.api.post('create_task', form).subscribe({
       next: (data) => {
         if (data) {
-          // this.router.navigate(['dashboard/tasks']);
+          this.router.navigate(['dashboard/user-list']);
           this.taskForm.reset();
         }
       },
