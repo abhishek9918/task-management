@@ -27,8 +27,6 @@ export class AdminDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.loggedInUser = this.auth.getUserInfo().user;
     this.fetchUserByAdmin(this.loggedInUser._id);
-    // this.fetchUserByAdmin();
-    // this.allUserList();
     this.getAllTasks();
   }
 
@@ -52,13 +50,12 @@ export class AdminDashboardComponent implements OnInit {
   allUserList: any;
   loginData: any = [];
   fetchUserByAdmin(id: any) {
-    // http://localhost:1517/fetchUserByAdminId/67ffe1008869a4f5d3b12f66
+    const url = `fetchUserByAdminId/${id}`;
 
-    this.apiService.get('fetchUserByAdminId/' + id).subscribe({
+    this.apiService.get(url).subscribe({
       next: (resp) => {
         console.warn(resp.data);
         this.loginData = resp.data;
-        // console.warn(this.allUserList);
       },
       error: (error) => {
         console.warn(error);
@@ -138,9 +135,6 @@ export class AdminDashboardComponent implements OnInit {
   currentIndex = -1;
   title = '';
 
-  // p: number = 1;
-  // total: number = 0;
-  // searchTasked: any[] = [];
   getAllTasks() {
     this.isloader = true;
     const id = this.loggedInUser._id;
@@ -155,11 +149,6 @@ export class AdminDashboardComponent implements OnInit {
           this.searchTasked = [...this.taskArray];
           console.log(this.searchTasked);
           this.total = resp.totalTasks || 0;
-
-          // if (this.taskArray.length === 0 && this.p > 1) {
-          //   this.p--;
-          //   this.getAllTasks();
-          // }
         } else {
           this.taskArray = [];
           this.searchTasked = [];

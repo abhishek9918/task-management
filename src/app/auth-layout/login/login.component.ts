@@ -45,8 +45,6 @@ export class LoginComponent implements OnInit {
     this.AuthService.login(formData).subscribe({
       next: (resp: any) => {
         this._toastr.success(resp.message);
-        // this.router.navigate(['/dashboard']);
-        // console.log(resp.data.role);
         if (resp.data.role === 'ADMIN') {
           console.log('if');
           this.router.navigate(['/dashboard']);

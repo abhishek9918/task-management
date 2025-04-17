@@ -34,8 +34,9 @@ export class CreateUsersComponent implements OnInit {
   ngOnInit(): void {
     this.routerId = this.activateRoute.snapshot.params['id'];
     this.loggedInUser = this.AuthService.getUserInfo().user;
-
-    this.fetchlogginginfo(this.routerId);
+    if (this.routerId) {
+      this.fetchlogginginfo(this.routerId);
+    }
     this.initForm();
   }
   initForm() {

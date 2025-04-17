@@ -80,7 +80,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
       path: '/dashboard',
       label: 'Dashboard',
       icon: '📊',
-      roles: ['ADMIN', 'MANAGER', 'USER'],
+      roles: ['ADMIN', 'MANAGER'],
+    },
+    {
+      path: '/user-dashboard',
+      label: 'Dahboard',
+      icon: '➕',
+      roles: ['USER'],
     },
     {
       path: '/user-dashboard/task-list',
@@ -119,6 +125,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.loggedInUser = this.auth.getUserInfo().user;
     let _id: any;
     if (this.loggedInUser !== null) {
+      console.log(this.loggedInUser);
       _id = this.loggedInUser._id;
       this.fetchlogginginfo(_id);
       this.loginInfo(this.loggedInUser._id);
