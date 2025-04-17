@@ -114,12 +114,12 @@
       <tr class="bg-gray-100 text-gray-600 uppercase text-xs tracking-wide">
         <th class="px-4 py-3">User</th>
         <th class="px-4 py-3">Role</th>
+
         <th class="px-4 py-3">Last Login</th>
         <th class="px-4 py-3">IP Address</th>
-
         <th class="px-4 py-3">Device</th>
-        <th class="px-4 py-3">Browser</th>
-        <th class="px-4 py-3">OS</th>
+        <th class="px-4 py-3">Operating System</th>
+        <th class="px-4 py-3">Location</th>
       </tr>
     </thead>
     <tbody class="divide-y">
@@ -127,12 +127,13 @@
         <tr class="hover:bg-gray-50">
           <td class="px-4 py-3">{{ item.userName }}</td>
           <td class="px-4 py-3">{{ item.role }}r</td>
-          <td class="px-4 py-3">2025-04-16 10:45 AM {{ item.lastLogin }}</td>
-          <td class="px-4 py-3">192.168.1.101 {{ item.lastLoginIP }}</td>
-
-          <td class="px-4 py-3">{{ item.device || "Unknown" }}</td>
-          <td class="px-4 py-3">{{ item.browser || "Unknown" }}</td>
-          <td class="px-4 py-3">{{ item.os || "Unknown" }}</td>
+          <td class="px-4 py-3">
+            {{ item.lastLogin | date : "medium" }}
+          </td>
+          <td class="px-4 py-3">{{ item.lastLoginIP }}</td>
+          <td class="px-4 py-3">{{ item.lastLoginDevice || "N/A" }}</td>
+          <td class="px-4 py-3">{{ item.lastLoginOS || "N/A" }}</td>
+          <td class="px-4 py-3">{{ item.lastLoginLocation || "Unknown" }}</td>
         </tr>
       </ng-container>
     </tbody>
