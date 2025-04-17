@@ -43,9 +43,22 @@ export class LoginComponent implements OnInit {
   }
   postUser(formData: any) {
     this.AuthService.login(formData).subscribe({
-      next: (resp) => {
+      next: (resp: any) => {
         this._toastr.success(resp.message);
-        this.router.navigate(['/dashboard']);
+        // this.router.navigate(['/dashboard']);
+        // console.log(resp.data.role);
+        if (resp.data.role === 'ADMIN') {
+          console.log('if');
+          this.router.navigate(['/dashboard']);
+        } else if (resp.data.role === 'USER') {
+          console.log('elif');
+
+          this.router.navigate(['/user-dashboard']);
+        } else if (resp.data.role === 'MANAGER') {
+          console.log('elif2');
+
+          this.router.navigate(['/manager']);
+        }
       },
       error: (error) => {
         this._toastr.error(error.message);

@@ -26,7 +26,7 @@ export class ViewTaskComponent implements OnInit {
   task: any;
   ngOnInit(): void {
     this.viewId = this.activateRoute.snapshot.params['id'];
-    
+
     this.viewTaskById(this.viewId);
   }
   viewTaskById(id: any) {
@@ -41,6 +41,6 @@ export class ViewTaskComponent implements OnInit {
     });
   }
   goBack(): void {
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/user-dashboard/task-list']);
   }
 }

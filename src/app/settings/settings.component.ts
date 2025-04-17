@@ -13,8 +13,10 @@ import moment from 'moment';
 import { UpdateUserService } from '../services/update-user.service';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-settings',
+  standalone: true,
   imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss',
@@ -45,12 +47,10 @@ export class SettingsComponent implements OnInit {
     if (this.LoggedInUserId) {
       this.fetchlogginginfo(this.LoggedInUserId);
     }
-
-    console.log(this.profileForm.value);
   }
   initForm() {
     this.profileForm = this._fb.group({
-      profile: [null, Validators.required],
+      profile: [null],
       userName: [null, Validators.required],
     });
     this.passwordFormGroup = this._fb.group({
@@ -69,7 +69,6 @@ export class SettingsComponent implements OnInit {
             userName: this.loggedInUserDetails.userName,
             profile: this.loggedInUserDetails.profilePicture,
           });
-          console.log(this.profileForm.value);
         }
       },
       error: (error) => {
@@ -96,7 +95,7 @@ export class SettingsComponent implements OnInit {
       reader.onload = (e: ProgressEvent<FileReader>) => {
         if (e.target && e.target.result) {
           this.selectedFile = event.target.files[0];
-          console.log(this.selectedFile);
+
           if (e.target.result) {
             this.profilePreview = e.target.result;
           }
@@ -110,12 +109,14 @@ export class SettingsComponent implements OnInit {
     this.api.uploadFile('update_profile', formData, true).subscribe({
       next: (resp) => {
         this.updateService.updateUserProfile(true);
-        if (resp.status === 200) {
+        if (resp) {
           this.updateService.setUser(resp.data);
+          this._toastr.success(resp.message);
         }
       },
       error: (err) => {
         console.error(err, 'updateProfile err');
+        this._toastr.error(err.message);
       },
     });
   }
@@ -123,6 +124,7 @@ export class SettingsComponent implements OnInit {
     if (!this.profileForm.valid) {
       return;
     }
+
     const formData = new FormData();
     if (this.selectedFile) {
       formData.append('upload_file', this.selectedFile);
@@ -136,7 +138,6 @@ export class SettingsComponent implements OnInit {
   }
 
   updatePassword(e: any) {
-    e.preventDefault();
     if (this.passwordFormGroup.valid) {
       const form = {
         userId: this.LoggedInUserId,
@@ -144,8 +145,13 @@ export class SettingsComponent implements OnInit {
         newPass: this.passwordFormGroup.value.new_password,
       };
       const url = 'update_password';
-      this.api.post(url, form).subscribe((e) => {
-        console.log(e);
+      this.api.post(url, form).subscribe({
+        next: (resp) => {
+          this._toastr.success(resp.message);
+        },
+        error: (err) => {
+          this._toastr.success(err.message);
+        },
       });
     }
   }

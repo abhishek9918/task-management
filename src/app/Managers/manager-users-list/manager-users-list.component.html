@@ -1,0 +1,181 @@
+<div class="flex h-screen">
+  <div class="w-64 bg-gray-800 text-white p-6 space-y-6">
+    <h2 class="text-2xl font-semibold">Admin Dashboard</h2>
+    <ul class="space-y-4">
+      <li>
+        <a
+          href="#"
+          class="flex items-center space-x-2 hover:bg-gray-700 p-2 rounded-md"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 6h18M3 12h18M3 18h18"
+            ></path>
+          </svg>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          class="flex items-center space-x-2 hover:bg-gray-700 p-2 rounded-md"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 3h16v18H4z"
+            ></path>
+          </svg>
+          <span>Tasks</span>
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          class="flex items-center space-x-2 hover:bg-gray-700 p-2 rounded-md"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 3v18h16V3H4zm16 4H4v10h16V7z"
+            ></path>
+          </svg>
+          <span>Users</span>
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          class="flex items-center space-x-2 hover:bg-gray-700 p-2 rounded-md"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 4h16v16H4z"
+            ></path>
+          </svg>
+          <span>Activity Logs</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="flex-1 bg-gray-100 p-8">
+    <div class="flex items-center justify-between border-b pb-4 mb-8">
+      <div class="text-xl font-bold text-gray-800">Admin Dashboard</div>
+      <div class="flex items-center space-x-4">
+        <button class="text-gray-800 hover:text-gray-600">Logout</button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="bg-white p-6 rounded-xl shadow-lg">
+        <h3 class="text-lg font-semibold text-gray-800">Total Tasks</h3>
+        <p class="text-gray-500 mt-2">
+          View and manage tasks assigned to users.
+        </p>
+        <div class="mt-4">
+          <span class="text-xl font-bold text-gray-700">45</span> Tasks
+        </div>
+      </div>
+
+      <div class="bg-white p-6 rounded-xl shadow-lg">
+        <h3 class="text-lg font-semibold text-gray-800">Total Users</h3>
+        <p class="text-gray-500 mt-2">
+          Manage users and roles within the system.
+        </p>
+        <div class="mt-4">
+          <span class="text-xl font-bold text-gray-700">120</span> Users
+        </div>
+      </div>
+
+      <div class="bg-white p-6 rounded-xl shadow-lg">
+        <h3 class="text-lg font-semibold text-gray-800">Recent Activity</h3>
+        <p class="text-gray-500 mt-2">
+          Monitor the latest activities in the system.
+        </p>
+        <div class="mt-4">
+          <span class="text-xl font-bold text-gray-700">5</span> Activities
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8 bg-white p-6 rounded-xl shadow-lg">
+      <h3 class="text-lg font-semibold text-gray-800">Task Management</h3>
+      <table class="min-w-full mt-4 table-auto">
+        <thead>
+          <tr class="bg-gray-200">
+            <th class="px-4 py-2 text-left">Task ID</th>
+            <th class="px-4 py-2 text-left">Assigned To</th>
+            <th class="px-4 py-2 text-left">Due Date</th>
+            <th class="px-4 py-2 text-left">Status</th>
+            <th class="px-4 py-2 text-left">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="px-4 py-2">001</td>
+            <td class="px-4 py-2">John Doe</td>
+            <td class="px-4 py-2">2025-04-20</td>
+            <td class="px-4 py-2">In Progress</td>
+            <td class="px-4 py-2">
+              <button class="bg-blue-500 text-white px-4 py-2 rounded-md">
+                Edit
+              </button>
+              <button class="bg-red-500 text-white px-4 py-2 rounded-md">
+                Delete
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td class="px-4 py-2">002</td>
+            <td class="px-4 py-2">Jane Smith</td>
+            <td class="px-4 py-2">2025-04-25</td>
+            <td class="px-4 py-2">Completed</td>
+            <td class="px-4 py-2">
+              <button class="bg-blue-500 text-white px-4 py-2 rounded-md">
+                Edit
+              </button>
+              <button class="bg-red-500 text-white px-4 py-2 rounded-md">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

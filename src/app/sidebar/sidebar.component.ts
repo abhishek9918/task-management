@@ -15,12 +15,13 @@ import {
   RouterOutlet,
   Router,
   RouterLinkActive,
+  NavigationEnd,
 } from '@angular/router';
 import { HeaderComponent } from '../header/header.component';
 import { ApiServiceService } from '../services/api-service.service';
-import { AuthService } from '../services/auth.service';
+import { AuthService, Login } from '../services/auth.service';
 import { UpdateUserService } from '../services/update-user.service';
-import { Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 export interface UserInfo {
   _id: string;
   email: string;
@@ -38,24 +39,79 @@ export interface UserInfo {
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   constructor(
-    private router: Router,
+    public router: Router,
     private auth: AuthService,
     private apiService: ApiServiceService,
     private userService: UpdateUserService
-  ) {}
+  ) {
+    // this.router.events
+    //   .pipe(filter((event) => event instanceof NavigationEnd))
+    //   .subscribe(() => {
+    //     this.checkTaskRouteActive();
+    //   });
+  }
+  isTaskPageActive = false;
+  private checkTaskRouteActive() {
+    // Check if the current route matches any route that starts with "/tasks"
+    const currentUrl = this.router.url;
+    this.isTaskPageActive =
+      currentUrl.startsWith('/user-dashboard/view-task-details') ||
+      currentUrl.startsWith('/user-dashboard/tasks');
+  }
+  activeUrl: any;
   loggedInUser: UserInfo | null = null;
   user: any;
   @ViewChild('sidebar') sidebarRef!: ElementRef;
   profilAvtar = 'avatar-3814081_640.png';
   pic: any;
   checkUser: any;
-  // isSidebarOpen: boolean = true;
   @Input() isSidebarOpen: boolean = true;
   @Output() isSidebarClicked = new EventEmitter<boolean>();
+
+  // navLinks = [
+  //   { path: '/dashboard', label: 'Dashboard', icon: '📊' },
+  //   { path: '/dashboard/create-user', label: 'Create User', icon: '➕' },
+  //   { path: '/dashboard/user-list', label: 'Users', icon: '👥' },
+  //   { path: '/dashboard/manager-list', label: 'Managers', icon: '🧑‍💼' },
+  //   { path: '/dashboard/user', label: 'User', icon: '🧑‍💼' },
+  // ];
   navLinks = [
-    { path: '/dashboard', label: 'Dashboard', icon: '📋' },
-    { path: '/dashboard/tasks', label: 'Tasks', icon: '📝' },
-    { path: '/dashboard/settings', label: 'Settings', icon: '⚙️' },
+    {
+      path: '/dashboard',
+      label: 'Dashboard',
+      icon: '📊',
+      roles: ['ADMIN', 'MANAGER', 'USER'],
+    },
+    {
+      path: '/user-dashboard/task-list',
+      label: 'Task',
+      icon: '➕',
+      roles: ['USER'],
+    },
+    {
+      path: '/dashboard/create-user',
+      label: 'Create User',
+      icon: '➕',
+      roles: ['ADMIN'],
+    },
+    {
+      path: '/dashboard/user-list',
+      label: 'Users',
+      icon: '👥',
+      roles: ['ADMIN'],
+    },
+    {
+      path: '/dashboard/manager-list',
+      label: 'Managers',
+      icon: '🧑‍💼',
+      roles: ['ADMIN'],
+    },
+    {
+      path: '/dashboard/user',
+      label: 'User',
+      icon: '🧑‍💼',
+      roles: ['MANAGER'],
+    },
   ];
 
   private subscription = new Subscription();
@@ -65,11 +121,29 @@ export class SidebarComponent implements OnInit, OnDestroy {
     if (this.loggedInUser !== null) {
       _id = this.loggedInUser._id;
       this.fetchlogginginfo(_id);
+      this.loginInfo(this.loggedInUser._id);
     }
     this.subscription = this.userService.userProfile$.subscribe((profile) => {
       if (profile) {
         this.fetchlogginginfo(_id);
       }
+    });
+  }
+  loggedInInfo: any;
+  loginInfo(id: any) {
+    const url = `role-info/${id}`;
+    this.apiService.get(url).subscribe({
+      next: (resp) => {
+        const { data } = resp;
+        if (data) {
+          this.loggedInInfo = data;
+          this.loggedInInfo = Object.keys(data).find((key) => data[key]);
+          console.log(this.loggedInInfo);
+        }
+      },
+      error: (error) => {
+        console.error(error);
+      },
     });
   }
 
@@ -92,11 +166,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  navItems = [
-    { label: 'Dashboard', link: '/dashboard', icon: '📋' },
-    { label: 'Tasks', link: '/dashboard/tasks', icon: '📝' },
-    { label: 'Settings', link: '/dashboard/settings', icon: '⚙️' },
-  ];
   openHideSidebar: boolean = false;
   toggleSidebar() {
     console.log('clicke');
@@ -107,15 +176,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl('/login');
   }
   collapse: boolean = false;
-  @Output() closeSidebar = new EventEmitter<void>();
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent): void {
-    const clickedInside = this.sidebarRef?.nativeElement?.contains(
-      event.target
-    );
-    console.log(clickedInside);
-    if (!clickedInside && this.isSidebarOpen) {
-      this.isSidebarOpen = false;
-    }
+
+  url: any = '';
+  activeRoute(route: any) {
+    this.url = '';
+    this.url = route;
+  }
+  get currentUrl(): string {
+    return this.router.url;
   }
 }

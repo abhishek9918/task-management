@@ -1,0 +1,64 @@
+<div class="max-w-8xl mx-auto p-2.5 sm:p-6">
+  <h1 class="text-3xl font-semibold text-center text-purple-500 mb-8">
+    👤 Team Members
+  </h1>
+
+  <div class="space-y-6">
+    @for (item of allUserList; track $index) {
+    <div
+      class="bg-gray-800 rounded-lg p-4 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] overflow-x-auto"
+    >
+      <div class="flex items-center justify-between min-w-[800px]">
+        <div class="flex items-center space-x-4">
+          <img
+            [src]="profilAvtar"
+            alt="User Avatar"
+            class="w-16 h-16 rounded-full border-2 border-purple-500"
+          />
+          <div class="text-white">
+            <h3 class="text-lg font-semibold">{{ item.userName }}</h3>
+            <p
+              class="text-sm text-gray-400 truncate w-44"
+              title="{{ item.email }}"
+            >
+              {{ item.email }}
+            </p>
+            <span
+              class="inline-block px-3 py-1 text-xs font-medium rounded-full bg-purple-600 text-white mt-2"
+            >
+              {{ item.role }}
+            </span>
+          </div>
+        </div>
+        <div class="flex items-center space-x-4 flex-shrink-0">
+          <span
+            class="px-4 py-1.5 text-sm font-medium rounded-full bg-green-600 text-white whitespace-nowrap"
+          >
+            {{ item.status === "ACTIVE " ? "Active" : "InActive" }}
+          </span>
+          <div class="flex space-x-2">
+            <button
+              (click)="createTaskForUser(item)"
+              class="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-700 transition shadow-md"
+            >
+              <fa-icon [icon]="faPlus"></fa-icon>
+            </button>
+            <button
+              (click)="editTask(item._id)"
+              class="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-700 transition shadow-md"
+            >
+              <fa-icon [icon]="faEdit"></fa-icon>
+            </button>
+            <button
+              (click)="deleteTask(item._id)"
+              class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700 transition shadow-md"
+            >
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>

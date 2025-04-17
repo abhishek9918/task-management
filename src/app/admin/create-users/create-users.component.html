@@ -1,0 +1,215 @@
+<!-- <div
+  class="flex items-center justify-center bg-gradient-to-br from-sky-100 via-blue-100 to-indigo-100 p-12"
+>
+  <div
+    class="w-full max-w-4xl bg-white/70 backdrop-blur-xl shadow-2xl rounded-3xl p-8 sm:p-10 md:p-14 border border-gray-200 space-y-10 transition-all duration-300"
+  >
+    <h2 class="text-4xl font-bold text-gray-800 text-center tracking-tight">
+      👤 Create New User
+    </h2>
+
+    <form
+      [formGroup]="userForm"
+      (ngSubmit)="submitForm()"
+      class="grid grid-cols-1 sm:grid-cols-2 gap-6 animate-fade-in-up"
+      autocomplete="off"
+    >
+      <div class="col-span-1">
+        <label class="block text-gray-700 mb-1 font-semibold">User Name</label>
+        <input
+          formControlName="userName"
+          type="text"
+          placeholder="userName"
+          class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all duration-200"
+        />
+      </div>
+      <div class="col-span-1">
+        <label class="block text-gray-700 mb-1 font-semibold">First Name</label>
+        <input
+          formControlName="firstName"
+          type="text"
+          placeholder="firstName"
+          class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all duration-200"
+        />
+      </div>
+
+      <div class="col-span-1">
+        <label class="block text-gray-700 mb-1 font-semibold">Last Name</label>
+        <input
+          formControlName="lastName"
+          type="text"
+          placeholder="lastName"
+          class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all duration-200"
+        />
+      </div>
+
+      <div class="col-span-1">
+        <label class="block text-gray-700 mb-1 font-semibold"
+          >Email Address</label
+        >
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="email"
+          class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all duration-200"
+        />
+      </div>
+
+      <div class="col-span-1">
+        <label class="block text-gray-700 mb-1 font-semibold">Password</label>
+        <input
+          formControlName="password"
+          type="password"
+          placeholder="••••••••"
+          class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all duration-200"
+        />
+      </div>
+
+      <div class="col-span-1">
+        <label class="block text-gray-700 mb-1 font-semibold">Role</label>
+        <select
+          formControlName="role"
+          class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        >
+          <option value="" disabled>Select role</option>
+          <option value="ADMIN">Admin</option>
+          <option value="MANAGER">Manager</option>
+          <option value="USER">User</option>
+        </select>
+      </div>
+
+      <div class="col-span-1">
+        <label class="block text-gray-700 mb-1 font-semibold">Status</label>
+        <select
+          formControlName="status"
+          class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        >
+          <option value="ACTIVE">Active</option>
+          <option value="IN_ACTIVE">Inactive</option>
+        </select>
+      </div>
+      <div class="text-center">
+        <button
+          type="submit"
+          class="bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-3 rounded-2xl shadow-xl font-semibold text-lg transition-all duration-300 ease-in-out"
+        >
+          {{ routerId ? "🚀 Update User" : "🚀 Create User" }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div> -->
+
+<div
+  class="flex items-center justify-center min-h-screen bg-gradient-to-br from-sky-100 via-blue-100 to-indigo-100 p-4 sm:p-8 md:p-12"
+>
+  <div
+    class="w-full max-w-4xl bg-white/70 backdrop-blur-xl shadow-2xl rounded-3xl p-6 sm:p-10 md:p-14 border border-gray-200 space-y-10 transition-all duration-300"
+  >
+    <h2
+      class="text-3xl sm:text-4xl font-bold text-gray-800 text-center tracking-tight"
+    >
+      👤 {{ routerId ? "Update User" : "Create New User" }}
+    </h2>
+
+    <form
+      [formGroup]="userForm"
+      (ngSubmit)="submitForm()"
+      class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 animate-fade-in-up"
+      autocomplete="off"
+    >
+      <!-- User Name -->
+      <div>
+        <label class="block text-gray-700 mb-1 font-semibold">User Name</label>
+        <input
+          formControlName="userName"
+          type="text"
+          placeholder="userName"
+          class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition"
+        />
+      </div>
+
+      <!-- First Name -->
+      <div>
+        <label class="block text-gray-700 mb-1 font-semibold">First Name</label>
+        <input
+          formControlName="firstName"
+          type="text"
+          placeholder="firstName"
+          class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition"
+        />
+      </div>
+
+      <!-- Last Name -->
+      <div>
+        <label class="block text-gray-700 mb-1 font-semibold">Last Name</label>
+        <input
+          formControlName="lastName"
+          type="text"
+          placeholder="lastName"
+          class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition"
+        />
+      </div>
+
+      <!-- Email -->
+      <div>
+        <label class="block text-gray-700 mb-1 font-semibold"
+          >Email Address</label
+        >
+        <input
+          formControlName="email"
+          type="email"
+          placeholder="email"
+          class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition"
+        />
+      </div>
+
+      <!-- Password -->
+      <div>
+        <label class="block text-gray-700 mb-1 font-semibold">Password</label>
+        <input
+          formControlName="password"
+          type="password"
+          placeholder="••••••••"
+          class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition"
+        />
+      </div>
+
+      <!-- Role -->
+      <div>
+        <label class="block text-gray-700 mb-1 font-semibold">Role</label>
+        <select
+          formControlName="role"
+          class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        >
+          <option value="" disabled>Select role</option>
+          <option value="ADMIN">Admin</option>
+          <option value="MANAGER">Manager</option>
+          <option value="USER">User</option>
+        </select>
+      </div>
+
+      <!-- Status -->
+      <div>
+        <label class="block text-gray-700 mb-1 font-semibold">Status</label>
+        <select
+          formControlName="status"
+          class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        >
+          <option value="ACTIVE">Active</option>
+          <option value="IN_ACTIVE">Inactive</option>
+        </select>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="col-span-1 sm:col-span-2 text-center pt-4">
+        <button
+          type="submit"
+          class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-2xl shadow-xl font-semibold text-base sm:text-lg transition-all duration-300 ease-in-out"
+        >
+          {{ routerId ? "🚀 Update User" : "🚀 Create User" }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

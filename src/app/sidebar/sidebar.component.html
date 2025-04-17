@@ -1,8 +1,7 @@
-<div #openHide>
-  <div
-    class="fixed inset-y-0 left-0 bg-gradient-to-b from-gray-900 to-gray-800/90 text-white transition-all duration-500 ease-in-out transform lg:relative lg:flex flex-col h-full p-6 shadow-2xl w-64 backdrop-blur-xl border-r border-white/10 z-20"
-    style="height: 100%; min-height: 91vmin"
-  >
+<div
+  class="w-64 bg-[#1c212c] h-[90vmin] flex flex-col justify-between pt-5 pb-2"
+>
+  <div class="px-3 text-gray-500 text-sm">
     <div
       class="flex items-center space-x-4 p-3 bg-white/10 rounded-xl mb-6 shadow-inner backdrop-blur-md"
     >
@@ -28,53 +27,64 @@
       </div>
     </div>
 
-    <h2 class="text-xl font-bold mb-6 tracking-wide text-white/90">
-      🧠 Task Manager
-    </h2>
+    <ng-container *ngFor="let link of navLinks">
+      <ng-container *ngIf="link.roles.includes(loggedInInfo)">
+        <div class="w-full flex items-center gap-x-1.5 group select-none mb-2">
+          <div class="w-1.5 h-10 relative overflow-hidden">
+            <div
+              class="absolute top-0 left-0 w-full h-[102%] transition-all duration-300 bg-red-600"
+              [ngClass]="
+                currentUrl === link.path
+                  ? 'translate-y-0 rounded-tr-lg rounded-br-lg'
+                  : 'translate-y-full group-hover:translate-y-0 '
+              "
+              style="pointer-events: none"
+            ></div>
+          </div>
 
-    <ul class="space-y-3 flex-1 overflow-y-auto">
-      <li *ngFor="let link of navLinks">
-        <a
-          [routerLink]="link.path"
-          routerLinkActive="active-link"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="group flex items-center p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-all duration-300 shadow hover:shadow-xl relative overflow-hidden"
-        >
-          <span class="text-xl">{{ link.icon }}</span>
-          <span class="ml-3 font-medium text-white relative z-10">
-            {{ link.label }}
-          </span>
-
-          <span
-            class="absolute left-0 top-0 h-full w-full bg-white/20 opacity-0 group-hover:opacity-100 transition duration-500 blur-xl z-0"
-          ></span>
-        </a>
-      </li>
-    </ul>
-
-    <div>
-      <button
-        (click)="logout()"
-        class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-red-600 hover:bg-red-700 transition-all duration-300 shadow-lg text-white font-semibold tracking-wide text-sm"
-      >
-        <span class="text-lg"
-          ><svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+          <a
+            (click)="activeRoute(link.path)"
+            [routerLink]="link.path"
+            routerLinkActive="active-link"
+            [class.active]="isTaskPageActive"
+            [routerLinkActiveOptions]="{ exact: true }"
+            [ngClass]="{
+              'text-white font-medium': currentUrl === link.path,
+              'text-gray-400': currentUrl !== link.path
+            }"
+            class="group-hover:bg-white/10 w-full pl-2 py-2.5 rounded flex items-center space-x-2 transition-all duration-200"
           >
-            <path d="M16 17l5-5-5-5" />
-            <path d="M21 12H9" />
-            <path d="M9 21H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5" /></svg
-        ></span>
-        Logout
-      </button>
-    </div>
+            <span class="font-QuicksandMedium text-base tracking-wide">
+              {{ link.label }}
+            </span>
+          </a>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+
+  <div class="px-3 mt-4">
+    <button
+      (click)="logout()"
+      class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#2a2f3b] hover:bg-red-600 transition-all duration-300 shadow-lg text-white font-semibold tracking-wide text-sm"
+    >
+      <span class="text-lg"
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M16 17l5-5-5-5" />
+          <path d="M21 12H9" />
+          <path d="M9 21H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5" /></svg
+      ></span>
+      Logout
+    </button>
   </div>
 </div>
