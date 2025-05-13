@@ -22,6 +22,7 @@ import {
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { provideToastr } from 'ngx-toastr';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -35,6 +36,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(BrowserAnimationsModule),
     PaginationControlsDirective,
     provideToastr(),
+    provideCharts(withDefaultRegisterables()),
     DatePipe,
     {
       provide: HTTP_INTERCEPTORS,

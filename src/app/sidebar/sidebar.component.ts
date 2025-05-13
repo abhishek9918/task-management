@@ -79,7 +79,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     {
       path: '/dashboard',
       label: 'Dashboard',
-      icon: '📊',
+      icon: 'fa-house',
       roles: ['ADMIN', 'MANAGER'],
     },
     {
@@ -91,32 +91,38 @@ export class SidebarComponent implements OnInit, OnDestroy {
     {
       path: '/user-dashboard/task-list',
       label: 'Task',
-      icon: '➕',
+      icon: 'fa-users',
       roles: ['USER'],
     },
     {
       path: '/dashboard/create-user',
       label: 'Create User',
-      icon: '➕',
+      icon: 'fa-user',
       roles: ['ADMIN'],
     },
     {
       path: '/dashboard/user-list',
       label: 'Users',
-      icon: '👥',
+      icon: 'fa-users',
       roles: ['ADMIN'],
     },
     {
       path: '/dashboard/manager-list',
       label: 'Managers',
-      icon: '🧑‍💼',
+      icon: 'fa-people-roof',
       roles: ['ADMIN'],
     },
     {
       path: '/dashboard/user',
       label: 'User',
-      icon: '🧑‍💼',
+      icon: 'fa-users',
       roles: ['MANAGER'],
+    },
+    {
+      path: '/dashboard/settings',
+      label: 'Settings',
+      icon: 'fa-gear',
+      roles: ['ADMIN', 'MANAGER', 'USER'],
     },
   ];
 
@@ -125,7 +131,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.loggedInUser = this.auth.getUserInfo().user;
     let _id: any;
     if (this.loggedInUser !== null) {
-      console.log(this.loggedInUser);
       _id = this.loggedInUser._id;
       this.fetchlogginginfo(_id);
       this.loginInfo(this.loggedInUser._id);
@@ -145,7 +150,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
         if (data) {
           this.loggedInInfo = data;
           this.loggedInInfo = Object.keys(data).find((key) => data[key]);
-          console.log(this.loggedInInfo);
         }
       },
       error: (error) => {
@@ -175,7 +179,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   openHideSidebar: boolean = false;
   toggleSidebar() {
-    console.log('clicke');
     this.openHideSidebar = !this.openHideSidebar;
   }
   logout() {

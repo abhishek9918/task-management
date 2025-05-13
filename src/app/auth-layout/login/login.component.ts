@@ -10,7 +10,6 @@ import {
 import { AuthService } from '../../services/auth.service';
 import { UpdateUserService } from '../../services/update-user.service';
 import { ToastrService } from 'ngx-toastr';
-
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -30,32 +29,30 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
   }
-
   initForm() {
     this.loginForm = this._fb.group({
       email: [''],
       password: [''],
     });
   }
-
   onSubmit() {
-    this.postUser(this.loginForm.value);
+    if (!this.loginForm.valid) {
+      this._toastr.error('Form is not valid');
+    } else {
+      const formVal = {
+        email: this.loginForm.value.email,
+        password: this.loginForm.value.password,
+      };
+      this.postUser(formVal);
+    }
   }
   postUser(formData: any) {
     this.AuthService.login(formData).subscribe({
       next: (resp: any) => {
-        this._toastr.success(resp.message);
         if (resp.data.role === 'ADMIN') {
-          console.log('if');
           this.router.navigate(['/dashboard']);
-        } else if (resp.data.role === 'USER') {
-          console.log('elif');
-
-          this.router.navigate(['/user-dashboard']);
-        } else if (resp.data.role === 'MANAGER') {
-          console.log('elif2');
-
-          this.router.navigate(['/manager']);
+        } else {
+          this.router.navigate(['/change-password']);
         }
       },
       error: (error) => {

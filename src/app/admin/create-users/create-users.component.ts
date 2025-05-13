@@ -87,6 +87,7 @@ export class CreateUsersComponent implements OnInit {
       firstName: this.userForm.value.firstName,
       lastName: this.userForm.value.lastName,
       createdBy: this.loggedInUser._id,
+      isFirstLogin: true,
     };
     if (this.routerId) {
       this.updateUser(updateUser);

@@ -1,0 +1,115 @@
+<div
+  class="p-6 mx-auto bg-gradient-to-r from-gray-800 to-gray-900 shadow-2xl rounded-xl space-y-8"
+>
+  <h2 class="text-4xl font-extrabold text-white text-center tracking-tight">
+    ⚙️ Settings
+  </h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div
+      class="bg-gray-800 p-6 rounded-2xl shadow-xl transition-transform transform hover:shadow-2xl"
+    >
+      <h3 class="text-2xl text-white font-semibold flex items-center gap-2">
+        👤 Profile
+      </h3>
+      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        <div class="flex flex-col items-center space-y-2">
+          <div class="relative w-32 h-32">
+            <img
+              [src]="
+                profilePreview
+                  ? profilePreview
+                  : LoggedInUserId && loggedInUserDetails?.profilePicture
+                  ? 'http://localhost:1517/' +
+                    loggedInUserDetails?.profilePicture
+                  : profilAvtar
+              "
+              alt="Profile"
+              class="w-full h-full object-cover rounded-full border-4 border-gray-600 shadow-2xl"
+            />
+            <label
+              class="absolute bottom-0 right-0 bg-blue-600 hover:bg-blue-700 p-2 rounded-full cursor-pointer text-white shadow-xl transition duration-300 ease-in-out transform hover:scale-110"
+            >
+              📁
+              <input
+                type="file"
+                class="hidden"
+                (change)="onImageChange($event)"
+              />
+            </label>
+          </div>
+          <p class="text-gray-400 text-sm">Allowed: JPG/PNG under 1MB</p>
+        </div>
+
+        <div class="relative">
+          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+            >👨‍💼</span
+          >
+          <input
+            type="text"
+            formControlName="userName"
+            placeholder="Enter your name"
+            class="w-full p-4 pl-12 rounded-md bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow-xl transition duration-300 ease-in-out transform hover:scale-105"
+        >
+          💾 Update Profile
+        </button>
+      </form>
+    </div>
+
+    <div
+      class="bg-gray-800 p-6 rounded-2xl shadow-xl transition-transform transform hover:shadow-2xl"
+    >
+      <h3 class="text-2xl text-white font-semibold flex items-center gap-2">
+        🔒 Change Password
+      </h3>
+      <form
+        [formGroup]="passwordFormGroup"
+        (ngSubmit)="updatePassword($event)"
+        class="space-y-6"
+      >
+        <div class="relative">
+          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+            >🔑</span
+          >
+          <input
+            type="password"
+            formControlName="old_password"
+            placeholder="Old Password"
+            class="w-full p-4 pl-12 rounded-md bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-green-500 transition duration-300 ease-in-out"
+          />
+        </div>
+
+        <div class="relative">
+          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+            >🔏</span
+          >
+          <input
+            type="password"
+            formControlName="new_password"
+            placeholder="New Password"
+            class="w-full p-4 pl-12 rounded-md bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-green-500 transition duration-300 ease-in-out"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="w-full py-3 bg-green-600 hover:bg-green-700 text-white rounded-md shadow-xl transition duration-300 ease-in-out transform hover:scale-105"
+        >
+          🔄 Update Password
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <button
+    class="w-full py-3 bg-red-600 hover:bg-red-700 text-white rounded-md shadow-xl flex justify-center items-center gap-2 transition duration-300 ease-in-out transform hover:scale-105"
+  >
+    🚪 Logout
+  </button>
+</div>

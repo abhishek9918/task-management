@@ -7,12 +7,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ApiServiceService } from '../services/api-service.service';
-import { AuthService, LoggedInUser } from '../services/auth.service';
 import moment from 'moment';
-import { UpdateUserService } from '../services/update-user.service';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../app/services/auth.service';
+import { ApiServiceService } from '../../app/services/api-service.service';
+import { UpdateUserService } from '../../app/services/update-user.service';
 
 @Component({
   selector: 'app-settings',
@@ -72,6 +72,7 @@ export class SettingsComponent implements OnInit {
         }
       },
       error: (error) => {
+        this._toastr.error('Failed to fetch user information.');
         console.error(error);
       },
     });
@@ -81,8 +82,7 @@ export class SettingsComponent implements OnInit {
 
     if (file) {
       const fileType = file.type;
-      const fileSize = file.size / 1024 / 1024; // in MB
-      // Validate file type and size
+      const fileSize = file.size / 1024 / 1024;
       if (!['image/jpeg', 'image/png'].includes(fileType)) {
         this._toastr.error('Only JPG and PNG formats are allowed');
         return;
@@ -116,12 +116,13 @@ export class SettingsComponent implements OnInit {
       },
       error: (err) => {
         console.error(err, 'updateProfile err');
-        this._toastr.error(err.message);
+        this._toastr.error(err.message || 'Failed to update profile.');
       },
     });
   }
   onSubmit() {
     if (!this.profileForm.valid) {
+      this._toastr.error('Please fill in all the required fields.');
       return;
     }
 
@@ -131,28 +132,29 @@ export class SettingsComponent implements OnInit {
     } else {
       formData.append('profile', this.loggedInUserDetails.profilePicture);
     }
-    // formData.append('upload_file', this.selectedFile);
     formData.append('userId', this.LoggedInUserId);
     formData.append('userName', this.profileForm.value.userName);
     this.updateProfile(formData);
   }
 
   updatePassword(e: any) {
-    if (this.passwordFormGroup.valid) {
-      const form = {
-        userId: this.LoggedInUserId,
-        oldPass: this.passwordFormGroup.value.old_password,
-        newPass: this.passwordFormGroup.value.new_password,
-      };
-      const url = 'update_password';
-      this.api.post(url, form).subscribe({
-        next: (resp) => {
-          this._toastr.success(resp.message);
-        },
-        error: (err) => {
-          this._toastr.success(err.message);
-        },
-      });
+    if (this.passwordFormGroup.invalid) {
+      this._toastr.error('Please fill in all the fields correctly.');
+      return;
     }
+    const form = {
+      userId: this.LoggedInUserId,
+      oldPass: this.passwordFormGroup.value.old_password,
+      newPass: this.passwordFormGroup.value.new_password,
+    };
+    const url = 'update_password';
+    this.api.post(url, form).subscribe({
+      next: (resp) => {
+        this._toastr.success(resp.message);
+      },
+      error: (err) => {
+        this._toastr.error(err.message || 'Failed to update password.');
+      },
+    });
   }
 }
